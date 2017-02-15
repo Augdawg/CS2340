@@ -38,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
                 && password.getText().toString().equals(users.get(0).getPassword())) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
+            username.setText("");
+            password.setText("");
         } else {
             Toast.makeText(getApplicationContext(), "Invalid credentials",
                     Toast.LENGTH_SHORT).show();
