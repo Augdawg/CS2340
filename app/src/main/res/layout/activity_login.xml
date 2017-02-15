@@ -41,5 +41,13 @@
         android:layout_centerHorizontal="true"
         android:onClick="loginpressed"
         android:text="Login"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelbtn"
+        android:layout_below="@+id/loginbtn"
+        android:layout_centerHorizontal="true"
+        android:onClick="cancelpressed"
+        android:text="Cancel"/>
 
 </RelativeLayout>

@@ -42,4 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void cancelpressed(View v) {
+        finish();
+    }
 }

@@ -12,7 +12,7 @@ public class Users {
 
     private Users() {
         users = new ArrayList<User>();
-        users.add(new User("User", "Pass"));
+        users.add(new User("user", "pass"));
     }
 
     public static Users getInstance() {
