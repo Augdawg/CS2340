@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Users;
@@ -32,9 +33,12 @@ public class LoginActivity extends AppCompatActivity {
     public void loginpressed(View view) {
         ArrayList<User> users = Users.getInstance().getUsers();
         if (username.getText().toString().equals(users.get(0).getUsername())
-                && password.getText().toString().equals(users.get(1).getPassword())) {
+                && password.getText().toString().equals(users.get(0).getPassword())) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Invalid credentials",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
