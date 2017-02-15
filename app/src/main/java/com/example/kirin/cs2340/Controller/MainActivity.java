@@ -1,7 +1,9 @@
-package com.example.kirin.cs2340;
+package com.example.kirin.cs2340.Controller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.kirin.cs2340.R;
 
 public class MainActivity extends AppCompatActivity {
 
