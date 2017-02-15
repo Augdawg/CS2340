@@ -8,16 +8,21 @@ import java.util.ArrayList;
 
 public class Users {
     private ArrayList<User> users;
-    private Users instance;
+    private static Users instance;
 
     private Users() {
         users = new ArrayList<User>();
+        users.add(new User("User", "Pass"));
     }
 
-    public Users getInstance() {
+    public static Users getInstance() {
         if (instance == null) {
             instance = new Users();
         }
         return instance;
+    }
+
+    public ArrayList<User> getUsers() {
+        return this.users;
     }
 }
