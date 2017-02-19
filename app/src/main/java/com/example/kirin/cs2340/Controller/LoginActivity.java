@@ -9,11 +9,13 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Kirin on 2/14/2017.
@@ -33,16 +35,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginpressed(View view) {
-        ArrayList<User> users = Users.getInstance().getUsers();
-        if (username.getText().toString().equals(users.get(0).getUsername())
-                && password.getText().toString().equals(users.get(0).getPassword())) {
+        HashMap users = Users.getInstance().getUsers();
+        User u = (User)users.get(username.getText().toString());
+        if (u == null || !u.getPassword().equals(password.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();;
+        } else {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
-            username.setText("");
-            password.setText("");
-        } else {
-            Toast.makeText(getApplicationContext(), "Invalid credentials",
-                    Toast.LENGTH_SHORT).show();
+            CurrentUser.getInstance().setCurrentUser(u);
         }
     }
 
