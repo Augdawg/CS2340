@@ -19,5 +19,11 @@
         android:id="@+id/logoutbutton"
         android:onClick="logoutPressed"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:layout_toLeftOf="@+id/logoutbutton"
+        android:onClick="editPressed"/>
 
 </RelativeLayout>

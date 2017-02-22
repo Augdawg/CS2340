@@ -1,18 +1,21 @@
 package com.example.kirin.cs2340.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Calendar;
+import static java.lang.Math.toIntExact;
 
 /**
  * Created by Kirin on 2/14/2017.
  */
 
 public class Users {
-    private ArrayList<User> users;
+    private HashMap<String, GeneralUser> users;
+
     private static Users instance;
 
     private Users() {
-        users = new ArrayList<User>();
-        users.add(new User("user", "pass"));
+        users = new HashMap<>();
     }
 
     public static Users getInstance() {
@@ -22,7 +25,11 @@ public class Users {
         return instance;
     }
 
-    public ArrayList<User> getUsers() {
+    public HashMap<String,GeneralUser> getUsers() {
         return this.users;
+    }
+
+    public void addUser(GeneralUser user) {
+        users.put(user.getUsername(), user);
     }
 }
