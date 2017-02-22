@@ -66,4 +66,8 @@ public class User extends GeneralUser {
     public void setTitle(String val) {
         this.title = val;
     }
+
+    public String getAccountType() {
+        return "USER";
+    }
 }

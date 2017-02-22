@@ -16,4 +16,8 @@ public class Manager extends Worker {
     public void viewWaterPurityTrends() {
         //implement
     }
+
+    public String getAccountType() {
+        return "MANAGER";
+    }
 }

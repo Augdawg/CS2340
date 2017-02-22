@@ -12,4 +12,8 @@ public class Worker extends User {
     public void submitWaterPurityReport() {
 
     }
+
+    public String getAccountType() {
+        return "WORKER";
+    }
 }

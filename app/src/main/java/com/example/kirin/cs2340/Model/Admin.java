@@ -74,5 +74,9 @@ public class Admin extends GeneralUser {
     public void setTitle(String val) {
         this.title = val;
     }
+
+    public String getAccountType() {
+        return "ADMIN";
+    }
 }
 

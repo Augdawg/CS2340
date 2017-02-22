@@ -25,4 +25,6 @@ public abstract class GeneralUser {
     public abstract String getTitle();
 
     public abstract void setTitle(String val);
+
+    public abstract String getAccountType();
 }
