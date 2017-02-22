@@ -10,7 +10,7 @@ import static java.lang.Math.toIntExact;
  */
 
 public class Users {
-    private HashMap<String, User> users;
+    private HashMap<String, GeneralUser> users;
 
     private static Users instance;
 
@@ -25,11 +25,11 @@ public class Users {
         return instance;
     }
 
-    public HashMap<String,User> getUsers() {
+    public HashMap<String,GeneralUser> getUsers() {
         return this.users;
     }
 
-    public void addUser(User user) {
+    public void addUser(GeneralUser user) {
         users.put(user.getUsername(), user);
     }
 }

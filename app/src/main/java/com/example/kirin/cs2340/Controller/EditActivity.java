@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.R;
+import com.example.kirin.cs2340.Model.GeneralUser;
 
 /**
  * Created by Kirin on 2/19/2017.
@@ -26,14 +27,14 @@ public class EditActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
         home = (EditText) findViewById(R.id.homeaddress);
         title = (EditText) findViewById(R.id.title);
-        User cu = CurrentUser.getInstance().getCurrentUser();
+        GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
         email.setText(cu.getEmail());
         home.setText(cu.getHome());
         title.setText(cu.getTitle());
     }
 
     public void savePressed(View v) {
-        User cu = CurrentUser.getInstance().getCurrentUser();
+        GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
         cu.setEmail(email.getText().toString());
         cu.setHome(home.getText().toString());
         cu.setTitle(title.getText().toString());

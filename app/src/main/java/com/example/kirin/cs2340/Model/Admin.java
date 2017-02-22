@@ -1,16 +1,17 @@
 package com.example.kirin.cs2340.Model;
 
 /**
- * Created by Kirin on 2/14/2017.
+ * Created by Kirin on 2/22/2017.
  */
 
-public class User extends GeneralUser {
+public class Admin extends GeneralUser {
     private String username;
     private String password;
     private String email;
     private String home;
     private String title;
-    public User(String username, String password, String email, String home, String title) {
+
+    public Admin(String username, String password, String email, String home, String title) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -18,12 +19,19 @@ public class User extends GeneralUser {
         this.title = title;
     }
 
-
-    public void submitWaterAvailabilityReport() {
+    public void deleteAccount(User user) {
         //implement
     }
 
-    public void submitWaterSourceReport() {
+    public void banUser(User user) {
+        //implement
+    }
+
+    public void unblockUser(User user) {
+        //implement
+    }
+
+    public void viewSecurityLog() {
         //implement
     }
 
@@ -67,3 +75,4 @@ public class User extends GeneralUser {
         this.title = val;
     }
 }
+

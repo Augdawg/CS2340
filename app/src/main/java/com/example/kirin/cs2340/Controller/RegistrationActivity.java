@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.RadioButton;
 
-import com.example.kirin.cs2340.Model.AccountType;
+import com.example.kirin.cs2340.Model.Admin;
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Users;
+import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.Worker;
 import com.example.kirin.cs2340.R;
 
 import java.util.Calendar;
@@ -54,9 +57,17 @@ public class RegistrationActivity extends AppCompatActivity {
             if (checked == -1) {
                 Toast.makeText(getApplicationContext(), "Select an Account Type", Toast.LENGTH_SHORT).show();
             } else {
-                AccountType acc = AccountType.valueOf(((RadioButton)findViewById(checked)).getText().toString());
-                long id = Calendar.getInstance().getTimeInMillis() / 1000;
-                User u = new User(id, uname, pass, em, home, ti, acc);
+                GeneralUser u;
+                String type = ((RadioButton)findViewById(checked)).getText().toString();
+                if (type.equals("USER")) {
+                    u = new User(uname, pass, em, home, ti);
+                } else if (type.equals("WORKER")) {
+                    u = new Worker(uname, pass, em, home, ti);
+                } else if (type.equals("MANAGER")) {
+                    u = new Manager(uname, pass, em, home, ti);
+                } else {
+                    u = new Admin(uname, pass, em, home, ti);
+                }
                 Users.getInstance().addUser(u);
                 CurrentUser.getInstance().setCurrentUser(u);
                 Intent intent = new Intent(this, WelcomeActivity.class);

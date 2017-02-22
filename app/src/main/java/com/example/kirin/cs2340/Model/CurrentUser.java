@@ -6,9 +6,9 @@ package com.example.kirin.cs2340.Model;
 
 public class CurrentUser {
     private static CurrentUser instance;
-    private User currentUser;
+    private GeneralUser currentUser;
 
-    private CurrentUser(User user) {
+    private CurrentUser(GeneralUser user) {
         this.currentUser = user;
     }
 
@@ -19,10 +19,10 @@ public class CurrentUser {
         return instance;
     }
 
-    public User getCurrentUser() {
+    public GeneralUser getCurrentUser() {
         return this.currentUser;
     }
-    public void setCurrentUser(User val) {
+    public void setCurrentUser(GeneralUser val) {
         this.currentUser = val;
     }
 

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.R;
@@ -35,8 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginpressed(View view) {
-        HashMap users = Users.getInstance().getUsers();
-        User u = (User)users.get(username.getText().toString());
+        HashMap<String, GeneralUser> users = Users.getInstance().getUsers();
+
+        GeneralUser u = users.get(username.getText().toString());
         if (u == null || !u.getPassword().equals(password.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();;
         } else {
