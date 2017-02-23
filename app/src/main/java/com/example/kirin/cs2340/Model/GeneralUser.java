@@ -2,6 +2,7 @@ package com.example.kirin.cs2340.Model;
 
 /**
  * Created by Kirin on 2/22/2017.
+ * Generic user that has properties that all users have
  */
 
 public abstract class GeneralUser {

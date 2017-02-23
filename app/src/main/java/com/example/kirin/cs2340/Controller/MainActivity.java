@@ -8,10 +8,17 @@ import android.widget.Button;
 
 import com.example.kirin.cs2340.R;
 
+/**
+ * MainActivity Controller
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Button loginButton;
 
+    /**
+     * creates activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +26,19 @@ public class MainActivity extends AppCompatActivity {
         loginButton = (Button) findViewById(R.id.login);
     }
 
+    /**
+     * Migrates to LoginActivity
+     * @param view
+     */
     public void loginPressed(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Migrates to RegisterActivity
+     * @param view
+     */
     public void registerPressed(View view) {
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);

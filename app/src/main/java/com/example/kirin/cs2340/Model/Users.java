@@ -14,10 +14,17 @@ public class Users {
 
     private static Users instance;
 
+    /**
+     * Users constructor
+     */
     private Users() {
         users = new HashMap<>();
     }
 
+    /**
+     * Returns active instance of Users in system
+     * @return Active Instance of Users in system
+     */
     public static Users getInstance() {
         if (instance == null) {
             instance = new Users();
@@ -29,6 +36,10 @@ public class Users {
         return this.users;
     }
 
+    /**
+     * Adds users to system
+     * @param user
+     */
     public void addUser(GeneralUser user) {
         users.put(user.getUsername(), user);
     }

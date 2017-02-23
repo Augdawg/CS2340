@@ -4,6 +4,9 @@ package com.example.kirin.cs2340.Model;
  * Created by Kirin on 2/22/2017.
  */
 
+/**
+ * Represents Admin User object
+ */
 public class Admin extends GeneralUser {
     private String username;
     private String password;
@@ -11,6 +14,14 @@ public class Admin extends GeneralUser {
     private String home;
     private String title;
 
+    /**
+     * Admin constructor
+     * @param username
+     * @param password
+     * @param email
+     * @param home
+     * @param title
+     */
     public Admin(String username, String password, String email, String home, String title) {
         this.username = username;
         this.password = password;
@@ -19,18 +30,33 @@ public class Admin extends GeneralUser {
         this.title = title;
     }
 
+    /**
+     * Deletes an account
+     * @param user
+     */
     public void deleteAccount(User user) {
         //implement
     }
 
+    /**
+     * Bans user from submitting reports
+     * @param user
+     */
     public void banUser(User user) {
         //implement
     }
 
+    /**
+     * Unbans user from submitting reports
+     * @param user
+     */
     public void unblockUser(User user) {
         //implement
     }
 
+    /**
+     * Shows security log to admin
+     */
     public void viewSecurityLog() {
         //implement
     }
@@ -75,6 +101,10 @@ public class Admin extends GeneralUser {
         this.title = val;
     }
 
+    /**
+     * Gets string representation of Account Type
+     * @return String of account type
+     */
     public String getAccountType() {
         return "ADMIN";
     }

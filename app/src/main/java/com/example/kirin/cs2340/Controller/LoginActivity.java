@@ -20,12 +20,17 @@ import java.util.HashMap;
 
 /**
  * Created by Kirin on 2/14/2017.
+ * LoginActivity Controller
  */
 
 public class LoginActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
 
+    /**
+     * creates activity
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -35,6 +40,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Logs in the user
+     * @param view
+     */
     public void loginpressed(View view) {
         HashMap<String, GeneralUser> users = Users.getInstance().getUsers();
 
@@ -48,6 +57,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cancels login and finishes login
+     * @param v
+     */
     public void cancelpressed(View v) {
         finish();
     }

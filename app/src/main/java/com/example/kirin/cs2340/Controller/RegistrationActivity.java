@@ -22,6 +22,7 @@ import java.util.Calendar;
 
 /**
  * Created by Kirin on 2/19/2017.
+ * RegistrationActivity Controller
  */
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -31,6 +32,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText homeaddress;
     private EditText title;
     private RadioGroup acctype;
+
+    /**
+     * Creates Activity
+     * @param savedInstanceState bundle data transfer
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +50,15 @@ public class RegistrationActivity extends AppCompatActivity {
         acctype = (RadioGroup) findViewById(R.id.acctype);
     }
 
+    /**
+     * Registers a new user given valid fields
+     * @param view current view
+     */
     public void registerClicked(View view) {
         String uname = username.getText().toString();
         String pass = password.getText().toString();
-        if (uname.trim().equals("")) {
-            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_SHORT).show();
+        if (uname.trim().equals("") || pass.trim().equals("")) {
+            Toast.makeText(getApplicationContext(), "Invalid login credentials", Toast.LENGTH_SHORT).show();
         } else {
             String em = email.getText().toString();
             String home = homeaddress.getText().toString();

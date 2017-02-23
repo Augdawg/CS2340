@@ -2,6 +2,7 @@ package com.example.kirin.cs2340.Model;
 
 /**
  * Created by Kirin on 2/14/2017.
+ * Represents User user object
  */
 
 public class User extends GeneralUser {
@@ -10,6 +11,15 @@ public class User extends GeneralUser {
     private String email;
     private String home;
     private String title;
+
+    /**
+     * User constructor
+     * @param username
+     * @param password
+     * @param email
+     * @param home
+     * @param title
+     */
     public User(String username, String password, String email, String home, String title) {
         this.username = username;
         this.password = password;
@@ -18,11 +28,16 @@ public class User extends GeneralUser {
         this.title = title;
     }
 
-
+    /**
+     * submits water availability report
+     */
     public void submitWaterAvailabilityReport() {
         //implement
     }
 
+    /**
+     * submits water source report
+     */
     public void submitWaterSourceReport() {
         //implement
     }
@@ -67,6 +82,10 @@ public class User extends GeneralUser {
         this.title = val;
     }
 
+    /**
+     * Gets String representation of Account Type
+     * @return String representation of Account Type
+     */
     public String getAccountType() {
         return "USER";
     }
