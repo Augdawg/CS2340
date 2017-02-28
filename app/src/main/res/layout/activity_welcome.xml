@@ -24,6 +24,14 @@
         android:layout_height="wrap_content"
         android:text="Edit Profile"
         android:layout_toLeftOf="@+id/logoutbutton"
+        android:id="@+id/profileButton"
         android:onClick="editPressed"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Report"
+        android:layout_toLeftOf="@+id/profileButton"
+        android:onClick="submitPressed"/>
+
 
 </RelativeLayout>
