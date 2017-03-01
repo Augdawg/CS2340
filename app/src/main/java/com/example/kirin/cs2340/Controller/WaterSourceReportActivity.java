@@ -26,7 +26,10 @@ public class WaterSourceReportActivity extends AppCompatActivity {
     RadioGroup typeInput;
     RadioGroup conditionInput;
     Button submitButton;
-
+    /**
+     * Creates Activity
+     * @param savedInstanceState bundle data transfer
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,12 @@ public class WaterSourceReportActivity extends AppCompatActivity {
         conditionInput = (RadioGroup) findViewById(R.id.conditionInput);
         submitButton = (Button) findViewById(R.id.submitButton);
     }
+
+    /**
+     * submits water source report
+     * @param view the current view
+     *           
+     */
     public void submitClick(View view) {
         String date = (new Date()).toString();
         int reportNum = 0;
