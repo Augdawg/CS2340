@@ -7,8 +7,15 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:id="@+id/name"
+        android:hint="Name"/>
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:id="@+id/username"
-        android:hint="Username"/>
+        android:hint="Username"
+        android:layout_below="@+id/name"/>
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"

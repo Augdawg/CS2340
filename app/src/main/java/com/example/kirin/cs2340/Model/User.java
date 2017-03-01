@@ -11,6 +11,7 @@ public class User extends GeneralUser {
     private String email;
     private String home;
     private String title;
+    private String name;
 
     /**
      * User constructor
@@ -20,7 +21,8 @@ public class User extends GeneralUser {
      * @param home
      * @param title
      */
-    public User(String username, String password, String email, String home, String title) {
+    public User(String name, String username, String password, String email, String home, String title) {
+        this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -41,6 +43,10 @@ public class User extends GeneralUser {
     public void submitWaterSourceReport() {
         //implement
     }
+
+    public String getName() { return this.name; }
+
+    public void setName(String value) {this.name = value;}
 
     public String getUsername() {
         return this.username;

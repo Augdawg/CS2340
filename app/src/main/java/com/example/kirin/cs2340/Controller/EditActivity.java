@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
  */
 
 public class EditActivity extends AppCompatActivity {
+    private EditText name;
     private EditText email;
     private EditText home;
     private EditText title;
@@ -33,6 +34,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        name = (EditText) findViewById(R.id.name);
         email = (EditText) findViewById(R.id.email);
         home = (EditText) findViewById(R.id.homeaddress);
         title = (EditText) findViewById(R.id.title);
@@ -50,6 +52,7 @@ public class EditActivity extends AppCompatActivity {
      */
     public void savePressed(View v) {
         GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        cu.setName(name.getText().toString());
         cu.setEmail(email.getText().toString());
         cu.setHome(home.getText().toString());
         cu.setTitle(title.getText().toString());
