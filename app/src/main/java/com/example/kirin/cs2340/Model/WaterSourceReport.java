@@ -4,6 +4,7 @@ import java.util.Date;
 
 /**
  * Created by Kirin on 2/28/2017.
+ * Models a Water Source Report
  */
 
 public class WaterSourceReport {
@@ -31,14 +32,26 @@ public class WaterSourceReport {
         reportNumber = ++reportCounter;
     }
 
+    /**
+     * gets report number
+     * @return report number
+     */
     public int getReportNumber() {
         return reportNumber;
     }
 
+    /**
+     * gets name of submitter
+     * @return name of submitter
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * gets condition of water of report
+     * @return condition of water of report
+     */
     public WaterCondition getCondition() {
         return condition;
     }

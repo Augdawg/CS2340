@@ -2,6 +2,7 @@ package com.example.kirin.cs2340.Model;
 
 /**
  * Created by Kirin on 2/22/2017.
+ * Models a worker account
  */
 
 public class Worker extends User {
