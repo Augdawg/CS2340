@@ -40,6 +40,7 @@ public class EditActivity extends AppCompatActivity {
         title = (EditText) findViewById(R.id.title);
         accType = (TextView) findViewById(R.id.acctype);
         GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        name.setText(cu.getName());
         email.setText(cu.getEmail());
         home.setText(cu.getHome());
         title.setText(cu.getTitle());
