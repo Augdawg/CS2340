@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Kirin on 2/28/2017.
+ * Displays list of submitted reports
  */
 
 public class ViewSourceActivity extends AppCompatActivity {

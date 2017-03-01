@@ -7,6 +7,7 @@ import static java.lang.Math.toIntExact;
 
 /**
  * Created by Kirin on 2/14/2017.
+ * Keeps track of all Users in application
  */
 
 public class Users {
@@ -40,7 +41,7 @@ public class Users {
 
     /**
      * Adds users to system
-     * @param user
+     * @param user user to be added
      */
     public void addUser(GeneralUser user) {
         users.put(user.getUsername(), user);

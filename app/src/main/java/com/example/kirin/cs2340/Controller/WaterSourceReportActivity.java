@@ -21,6 +21,11 @@ import com.example.kirin.cs2340.R;
 
 import java.util.Date;
 
+/**
+ * Created by August Wagner
+ * Activity to submit water source report
+ */
+
 public class WaterSourceReportActivity extends AppCompatActivity {
 
     EditText latInput;
