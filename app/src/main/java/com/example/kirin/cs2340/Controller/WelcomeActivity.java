@@ -63,4 +63,9 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WaterSourceReportActivity.class);
         startActivity(intent);
     }
+
+    public void viewReportPressed(View v) {
+        Intent intent = new Intent(this, ViewSourceActivity.class);
+        startActivity(intent);
+    }
 }

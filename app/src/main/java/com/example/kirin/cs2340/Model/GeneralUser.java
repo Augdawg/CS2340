@@ -7,6 +7,10 @@ package com.example.kirin.cs2340.Model;
 
 public abstract class GeneralUser {
 
+    public abstract String getName();
+
+    public abstract void setName(String value);
+
     public abstract String getUsername();
 
     public abstract void setUsername(String value);

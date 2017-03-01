@@ -19,7 +19,7 @@ public class Users {
      */
     private Users() {
         users = new HashMap<>();
-        GeneralUser u = new User("user", "pass", "email", "home", "title");
+        GeneralUser u = new User("name", "user", "pass", "email", "home", "title");
         users.put(u.getUsername(), u);
     }
 

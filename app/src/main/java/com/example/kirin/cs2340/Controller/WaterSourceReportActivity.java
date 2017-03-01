@@ -13,14 +13,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.kirin.cs2340.Model.AllReports;
+import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
 
 import java.util.Date;
 
 public class WaterSourceReportActivity extends AppCompatActivity {
 
-    EditText reportNumInput;
-    EditText nameInput;
     EditText latInput;
     EditText longInput;
     RadioGroup typeInput;
@@ -34,7 +36,6 @@ public class WaterSourceReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water_source_report);
-        nameInput = (EditText) findViewById(R.id.nameInput);
         latInput = (EditText) findViewById(R.id.latInput);
         longInput = (EditText) findViewById(R.id.longInput);
         typeInput = (RadioGroup) findViewById(R.id.typeInput);
@@ -48,15 +49,26 @@ public class WaterSourceReportActivity extends AppCompatActivity {
      *           
      */
     public void submitClick(View view) {
-        String date = (new Date()).toString();
-        int reportNum = 0;
-        String name = nameInput.getText().toString();
+        Date date = new Date();
         double lat = Double.parseDouble(latInput.getText().toString());
         double longi = Double.parseDouble(longInput.getText().toString());
         String type = ((RadioButton)findViewById(typeInput.getCheckedRadioButtonId())).getText().toString();
         String condition = ((RadioButton)findViewById(conditionInput.getCheckedRadioButtonId())).getText().toString();
+        GeneralUser u = CurrentUser.getInstance().getCurrentUser();
+
+        WaterSourceReport wsr = new WaterSourceReport(u.getName(), lat, longi, type, condition, date);
+        AllReports.getInstance().addWaterSourceReport(wsr);
+
         Toast.makeText(getApplicationContext(), "Water Source Report Submited",
                 Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, WelcomeActivity.class);
+
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void cancelClick(View v) {
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

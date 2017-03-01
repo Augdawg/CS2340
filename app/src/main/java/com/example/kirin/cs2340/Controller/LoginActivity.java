@@ -15,7 +15,6 @@ import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -37,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
-
     }
 
     /**

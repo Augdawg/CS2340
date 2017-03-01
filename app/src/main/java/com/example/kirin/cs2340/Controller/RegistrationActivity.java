@@ -26,6 +26,7 @@ import java.util.Calendar;
  */
 
 public class RegistrationActivity extends AppCompatActivity {
+    private EditText name;
     private EditText username;
     private EditText password;
     private EditText email;
@@ -42,6 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        name = (EditText) findViewById(R.id.name);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         email = (EditText) findViewById(R.id.email);
@@ -55,6 +57,7 @@ public class RegistrationActivity extends AppCompatActivity {
      * @param view current view
      */
     public void registerClicked(View view) {
+        String n = name.getText().toString();
         String uname = username.getText().toString();
         String pass = password.getText().toString();
         if (uname.trim().equals("") || pass.trim().equals("")) {
@@ -70,13 +73,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 GeneralUser u;
                 String type = ((RadioButton)findViewById(checked)).getText().toString();
                 if (type.equals("USER")) {
-                    u = new User(uname, pass, em, home, ti);
+                    u = new User(n, uname, pass, em, home, ti);
                 } else if (type.equals("WORKER")) {
-                    u = new Worker(uname, pass, em, home, ti);
+                    u = new Worker(n, uname, pass, em, home, ti);
                 } else if (type.equals("MANAGER")) {
-                    u = new Manager(uname, pass, em, home, ti);
+                    u = new Manager(n, uname, pass, em, home, ti);
                 } else {
-                    u = new Admin(uname, pass, em, home, ti);
+                    u = new Admin(n, uname, pass, em, home, ti);
                 }
                 Users.getInstance().addUser(u);
                 CurrentUser.getInstance().setCurrentUser(u);

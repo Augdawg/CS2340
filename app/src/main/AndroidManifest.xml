@@ -29,6 +29,9 @@
         <activity
             android:name=".Controller.WaterSourceReportActivity"
             android:label="cs2340"></activity>
+        <activity
+            android:name=".Controller.ViewSourceActivity"
+            android:label="cs2340"></activity>
     </application>
 
 </manifest>

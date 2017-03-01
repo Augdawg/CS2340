@@ -14,8 +14,8 @@ public class Manager extends Worker {
      * @param home
      * @param title
      */
-    public Manager(String username, String password, String email, String home, String title) {
-        super(username, password, email, home, title);
+    public Manager(String name, String username, String password, String email, String home, String title) {
+        super(name, username, password, email, home, title);
     }
 
     /**
