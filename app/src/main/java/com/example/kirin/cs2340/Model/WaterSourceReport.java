@@ -9,7 +9,8 @@ import java.util.Date;
 
 public class WaterSourceReport {
     private String name;
-    private String location;
+    private double lat;
+    private double lng;
     private WaterType type;
     private WaterCondition condition;
     private Date date;
@@ -17,9 +18,10 @@ public class WaterSourceReport {
 
     private static int reportCounter = 0;
 
-    public WaterSourceReport(String name, double lat, double longi, String type, String condition, Date date) {
+    public WaterSourceReport(String name, double lat, double lng, String type, String condition, Date date) {
         this.name = name;
-        this.location = lat + ", " + longi;
+        this.lat = lat;
+        this.lng = lng;
         this.type = WaterType.valueOf(type.toUpperCase());
         if (condition.equals("Treatable-Muddy")) {
             this.condition = WaterCondition.MUDDY;
@@ -54,5 +56,31 @@ public class WaterSourceReport {
      */
     public WaterCondition getCondition() {
         return condition;
+    }
+
+    /**
+     * Gets latitude of water report
+     * @return latitude of water report
+     */
+    public double getLat() {
+        return lat;
+    }
+
+    /**
+     * Gets longitude of water report
+     * @return longitude of water report
+     */
+    public double getLng() {
+        return lng;
+    }
+
+    public String toString() {
+        return  "Report Number: " + this.reportNumber + "\n"
+                + "Submitter: " + this.name + "\n"
+                + "Lat: " + this.lat + "\n"
+                + "Lng: " + this.lng + "\n"
+                + "Water Type: " + this.type.toString() + "\n"
+                + "Water Condition: " + this.condition.toString() + "\n"
+                + "Date: " + this.date.toString();
     }
 }
