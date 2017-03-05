@@ -8,7 +8,6 @@
         android:layout_height="wrap_content"
         android:text="Welcome to our app!"
         android:id="@+id/welcometext"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textSize="20dp"/>
     <Button
@@ -16,6 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Logout"
         android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/profileButton"
         android:id="@+id/logoutbutton"
         android:onClick="logoutPressed"
         />
@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:text="Edit Profile"
         android:id="@+id/profileButton"
-        android:onClick="editPressed"/>
+        android:onClick="editPressed"
+        android:layout_below="@+id/welcometext"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +39,15 @@
         android:text="View Report"
         android:layout_below="@+id/submitbtn"
         android:onClick="viewReportPressed"
+        android:id="@+id/viewreport"
         />
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mapfragment"
+        android:layout_alignBaseline="@+id/viewreport"
+        android:layout_centerHorizontal="true"
+        android:name="com.google.android.gms.maps.MapFragment"/>
 
 
 </RelativeLayout>

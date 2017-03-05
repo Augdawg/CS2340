@@ -7,7 +7,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB4r3Zqs4NKggOwx_4soClOHgkzYVZd-Mk" />
         <activity android:name=".Controller.MainActivity">
+            <uses-library android:name="com.google.android.maps" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +36,11 @@
             android:label="cs2340"></activity>
         <activity
             android:name=".Controller.ViewSourceActivity"
-            android:label="cs2340"></activity>
+            android:label="cs2340"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
