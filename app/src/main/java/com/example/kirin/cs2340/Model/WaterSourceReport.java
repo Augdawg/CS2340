@@ -74,6 +74,7 @@ public class WaterSourceReport {
         return lng;
     }
 
+    @Override
     public String toString() {
         return  "Report Number: " + this.reportNumber + "\n"
                 + "Submitter: " + this.name + "\n"

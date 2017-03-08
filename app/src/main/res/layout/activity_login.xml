@@ -27,7 +27,7 @@
         android:id="@+id/loginbtn"
         android:layout_below="@+id/password"
         android:layout_centerHorizontal="true"
-        android:onClick="loginpressed"
+        android:onClick="loginPressed"
         android:text="Login"/>
     <Button
         android:layout_width="wrap_content"
@@ -35,7 +35,16 @@
         android:id="@+id/cancelbtn"
         android:layout_below="@+id/loginbtn"
         android:layout_centerHorizontal="true"
-        android:onClick="cancelpressed"
+        android:onClick="cancelPressed"
         android:text="Cancel"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forgotpassbtn"
+        android:layout_below="@+id/cancelbtn"
+        android:layout_centerHorizontal="true"
+        android:onClick="forgotPressed"
+        android:text="Forgot Password"/>
 
 </RelativeLayout>

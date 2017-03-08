@@ -12,6 +12,7 @@ import static java.lang.Math.toIntExact;
 
 public class Users {
     private HashMap<String, GeneralUser> users;
+    private HashMap<String, String> passwordCodes;
 
     private static Users instance;
 
@@ -20,8 +21,9 @@ public class Users {
      */
     private Users() {
         users = new HashMap<>();
-        GeneralUser u = new User("name", "user", "pass", "email", "home", "title");
+        GeneralUser u = new User("Kirin Bettadapur", "kbettadapur3", "Wafflecone1!", "kirinbetta97@gmail.com", "5400 Saint Lyonn Place", "Student");
         users.put(u.getUsername(), u);
+        passwordCodes = new HashMap<>();
     }
 
     /**
@@ -45,5 +47,13 @@ public class Users {
      */
     public void addUser(GeneralUser user) {
         users.put(user.getUsername(), user);
+    }
+
+    public void addPasswordCode(String username, String code) {
+        passwordCodes.put(username, code);
+    }
+
+    public HashMap<String, String> getPasswordCodes() {
+        return this.passwordCodes;
     }
 }
