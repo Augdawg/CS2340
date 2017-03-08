@@ -1,21 +1,33 @@
 package com.example.kirin.cs2340.Controller;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.content.Intent;
 import android.widget.Toast;
 
+import java.net.*;
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.ForgotPassUser;
+import com.example.kirin.cs2340.Model.GMailSender;
 import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.R;
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 
 import java.util.HashMap;
+
+import javax.mail.Session;
+import javax.mail.util.ByteArrayDataSource;
 
 /**
  * Created by Kirin on 2/14/2017.
@@ -40,9 +52,9 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Logs in the user
-     * @param view
+     * @param view current view
      */
-    public void loginpressed(View view) {
+    public void loginPressed(View view) {
         HashMap<String, GeneralUser> users = Users.getInstance().getUsers();
 
         GeneralUser u = users.get(username.getText().toString());
@@ -57,9 +69,35 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Cancels login and finishes login
-     * @param v
+     * @param v current view
      */
-    public void cancelpressed(View v) {
+    public void cancelPressed(View v) {
         finish();
+    }
+
+    /**
+     * implements forgot password functionality
+     * @param v current view
+     */
+    public void forgotPressed(View v) {
+        GeneralUser userNeeded = Users.getInstance().getUsers().get(username.getText().toString());
+        if (username.getText() != null && userNeeded != null) {
+            try {
+                String key;
+                Random r = new Random(System.currentTimeMillis());
+                key = Integer.toString(10000 + r.nextInt(20000));
+                Users.getInstance().addPasswordCode(userNeeded.getUsername(), key);
+                GMailSender sender = new GMailSender("water2340donotreply@gmail.com", "water12345");
+                sender.sendMail("Water Password Reset", "Type in this code: " + key, sender.getUser(), userNeeded.getEmail());
+                Intent intent = new Intent(this, ForgotPasswordActivity.class);
+                ForgotPassUser.getInstance().setUsername(userNeeded.getUsername());
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG);
+        }
     }
 }
