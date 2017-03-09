@@ -26,7 +26,7 @@ import java.util.Properties;
  */
 
 public class GMailSender extends Authenticator {
-    private String mailhost = "smtp.gmail.com";
+    private String mailhost = "smtp.mail.yahoo.com";
     private String user;
     private String password;
     private Session session;
@@ -36,15 +36,10 @@ public class GMailSender extends Authenticator {
         this.password = password;
 
         Properties props = new Properties();
-        props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.host", mailhost);
+        props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
-        props.setProperty("mail.smtp.quitwait", "false");
+        props.put("mail.smtp.host", "smtp.mail.yahoo.com");
+        props.put("mail.smtp.port", "25");
 
         session = Session.getDefaultInstance(props, this);
     }

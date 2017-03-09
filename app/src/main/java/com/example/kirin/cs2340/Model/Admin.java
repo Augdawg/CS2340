@@ -8,6 +8,7 @@ package com.example.kirin.cs2340.Model;
  * Represents Admin User object
  */
 public class Admin extends GeneralUser {
+    private int id;
     private String name;
     private String username;
     private String password;
@@ -24,12 +25,17 @@ public class Admin extends GeneralUser {
      * @param title
      */
     public Admin(String name, String username, String password, String email, String home, String title) {
+        this.id = name.hashCode();
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
         this.home = home;
         this.title = title;
+    }
+
+    public Admin() {
+        this("", "", "", "", "", "");
     }
 
     /**
@@ -113,6 +119,10 @@ public class Admin extends GeneralUser {
      */
     public String getAccountType() {
         return "ADMIN";
+    }
+
+    public int getId() {
+        return this.id;
     }
 }
 

@@ -9,11 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.R;
 import com.example.kirin.cs2340.Model.GeneralUser;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 /**
  * Created by Kirin on 2/19/2017.
@@ -57,7 +60,10 @@ public class EditActivity extends AppCompatActivity {
         cu.setEmail(email.getText().toString());
         cu.setHome(home.getText().toString());
         cu.setTitle(title.getText().toString());
+        DBHandler db = new DBHandler(getApplicationContext());
+        db.addUser(cu);
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+        List<GeneralUser> users = db.getAllUsers();
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

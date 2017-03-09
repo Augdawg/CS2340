@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.ForgotPassUser;
 import com.example.kirin.cs2340.Model.GeneralUser;
-import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.R;
 
 /**
@@ -29,11 +29,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void changePassword(View v) {
         if (newPass.getText() != null && !newPass.getText().toString().equals("")) {
             String currentUser = ForgotPassUser.getInstance().getUsername();
-            GeneralUser g = Users.getInstance().getUsers().get(currentUser);
+            DBHandler db = new DBHandler(getApplicationContext());
+            GeneralUser g = db.getUserByUsername(currentUser);
             g.setPassword(newPass.getText().toString());
+            db.addUser(g);
             Intent intent = new Intent(this, WelcomeActivity.class);
             Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_LONG).show();
-            CurrentUser.getInstance().setCurrentUser(Users.getInstance().getUsers().get(currentUser));
+            CurrentUser.getInstance().setCurrentUser(g);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();

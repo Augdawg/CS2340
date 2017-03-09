@@ -11,14 +11,12 @@ import android.widget.RadioButton;
 
 import com.example.kirin.cs2340.Model.Admin;
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.User;
-import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.Worker;
 import com.example.kirin.cs2340.R;
-
-import java.util.Calendar;
 
 /**
  * Created by Kirin on 2/19/2017.
@@ -81,8 +79,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 } else {
                     u = new Admin(n, uname, pass, em, home, ti);
                 }
-                Users.getInstance().addUser(u);
                 CurrentUser.getInstance().setCurrentUser(u);
+                DBHandler db = new DBHandler(getApplicationContext());
+                db.addUser(u);
                 Intent intent = new Intent(this, WelcomeActivity.class);
                 startActivity(intent);
             }

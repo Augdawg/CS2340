@@ -6,14 +6,13 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.kirin.cs2340.Model.AllReports;
 import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
 import com.google.android.gms.appindexing.Action;
@@ -28,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
+import java.util.List;
 
 /**
  * Created by Kirin on 2/14/2017.
@@ -72,7 +71,9 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     public void onMapReady(GoogleMap map) {
         gm = map;
-        for (WaterSourceReport r : AllReports.getInstance().getWaterSourceReports()) {
+        WSRDBHandler db = new WSRDBHandler(getApplicationContext());
+        List<WaterSourceReport> wsrReports = db.getAllReports();
+        for (WaterSourceReport r : wsrReports) {
             LatLng l = new LatLng(r.getLat(), r.getLng());
             gm.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
         }

@@ -16,8 +16,6 @@ public class WaterSourceReport {
     private Date date;
     private int reportNumber;
 
-    private static int reportCounter = 0;
-
     public WaterSourceReport(String name, double lat, double lng, String type, String condition, Date date) {
         this.name = name;
         this.lat = lat;
@@ -31,7 +29,11 @@ public class WaterSourceReport {
             this.condition = WaterCondition.valueOf(condition.toUpperCase());
         }
         this.date = date;
-        reportNumber = ++reportCounter;
+        reportNumber = Math.abs(this.hashCode());
+    }
+
+    public WaterSourceReport() {
+
     }
 
     /**
@@ -74,9 +76,49 @@ public class WaterSourceReport {
         return lng;
     }
 
+    public String getWaterType() {
+        return this.type.toString();
+    }
+
+    public String getWaterCondition() {
+        return this.condition.toString();
+    }
+
+    public Date getDate() {
+        return this.date;
+    }
+
+    public void setName(String val) {
+        this.name = val;
+    }
+
+    public void setLat(double val) {
+        this.lat = val;
+    }
+
+    public void setLng(double val) {
+        this.lng = val;
+    }
+
+    public void setType(WaterType wt) {
+        this.type = wt;
+    }
+
+    public void setCondition(WaterCondition wc) {
+        this.condition = wc;
+    }
+
+    public void setDate(Date val) {
+        this.date = val;
+    }
+
+    public void setReportNumber(int val) {
+        this.reportNumber = val;
+    }
+
     @Override
     public String toString() {
-        return  "Report Number: " + this.reportNumber + "\n"
+        return  "Report Id: " + this.reportNumber + "\n"
                 + "Submitter: " + this.name + "\n"
                 + "Lat: " + this.lat + "\n"
                 + "Lng: " + this.lng + "\n"

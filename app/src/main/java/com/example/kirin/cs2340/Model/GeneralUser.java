@@ -32,4 +32,7 @@ public abstract class GeneralUser {
     public abstract void setTitle(String val);
 
     public abstract String getAccountType();
+
+    public abstract int getId();
+
 }
