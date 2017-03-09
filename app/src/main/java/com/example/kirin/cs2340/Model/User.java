@@ -6,6 +6,7 @@ package com.example.kirin.cs2340.Model;
  */
 
 public class User extends GeneralUser {
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -22,12 +23,17 @@ public class User extends GeneralUser {
      * @param title
      */
     public User(String name, String username, String password, String email, String home, String title) {
+        this.id = username.hashCode();
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
         this.home = home;
         this.title = title;
+    }
+
+    public User() {
+        this("","","","","","");
     }
 
     /**
@@ -54,6 +60,7 @@ public class User extends GeneralUser {
 
     public void setUsername(String value) {
         this.username = value;
+        this.id = this.username.hashCode();
     }
 
     public String getPassword() {
@@ -95,4 +102,9 @@ public class User extends GeneralUser {
     public String getAccountType() {
         return "USER";
     }
+
+    public int getId() {
+        return this.id;
+    }
+
 }

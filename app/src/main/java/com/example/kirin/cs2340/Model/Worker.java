@@ -17,6 +17,9 @@ public class Worker extends User {
     public Worker(String name, String username, String password, String email, String home, String title) {
         super(name, username, password, email, home, title);
     }
+    public Worker() {
+        super("", "", "", "", "", "");
+    }
 
     /**
      * Submits water purity report

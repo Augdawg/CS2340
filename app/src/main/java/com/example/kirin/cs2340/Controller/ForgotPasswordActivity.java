@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.kirin.cs2340.Model.ForgotPassUser;
-import com.example.kirin.cs2340.Model.Users;
 import com.example.kirin.cs2340.R;
 
 /**
@@ -28,7 +27,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     public void checkCode(View view) {
         ForgotPassUser user = ForgotPassUser.getInstance();
-        if (Users.getInstance().getPasswordCodes().get(user.getUsername()).equals(givenCode.getText().toString())) {
+        if (ForgotPassUser.getInstance().getPasswordCodes().get(user.getUsername()).equals(givenCode.getText().toString())) {
             Intent intent = new Intent(this, ChangePasswordActivity.class);
             startActivity(intent);
         } else {

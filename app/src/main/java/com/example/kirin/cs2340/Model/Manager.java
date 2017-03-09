@@ -18,6 +18,10 @@ public class Manager extends Worker {
         super(name, username, password, email, home, title);
     }
 
+    public Manager() {
+        super("", "", "", "", "", "");
+    }
+
     /**
      * Submits historical report
      */
