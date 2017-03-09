@@ -2,6 +2,8 @@ package com.example.kirin.cs2340.Controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,20 +20,23 @@ import java.util.List;
  */
 
 public class ViewSourceActivity extends AppCompatActivity {
-    ListView lv;
+    private RecyclerView rv;
+    private RecyclerView.Adapter adapter;
+    private LinearLayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewsource);
-        lv = (ListView) findViewById(R.id.sourcereports);
-        ArrayList<String> reports = new ArrayList<>();
+        rv = (RecyclerView) findViewById(R.id.sourcereports);
+        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(mLayoutManager);
+
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
         List<WaterSourceReport> wsrReports = db.getAllReports();
-        for (int i = 0; i < wsrReports.size(); i++) {
-            WaterSourceReport wsr = wsrReports.get(i);
-            reports.add(wsr.getReportNumber() + ". "  + wsr.getName() + ", " + wsr.getCondition().toString());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reports);
-        lv.setAdapter(adapter);
+
+        ReportAdapter adapter = new ReportAdapter(wsrReports);
+        rv.setAdapter(adapter);
     }
 }
