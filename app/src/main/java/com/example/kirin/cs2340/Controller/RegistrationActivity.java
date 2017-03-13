@@ -20,7 +20,7 @@ import com.example.kirin.cs2340.R;
 
 /**
  * Created by Kirin on 2/19/2017.
- * RegistrationActivity Controller
+ * Activity that allows users to register a new account
  */
 
 public class RegistrationActivity extends AppCompatActivity {

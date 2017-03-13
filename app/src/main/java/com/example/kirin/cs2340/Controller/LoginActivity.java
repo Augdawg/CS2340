@@ -17,7 +17,7 @@ import com.example.kirin.cs2340.R;
 import java.util.*;
 /**
  * Created by Kirin on 2/14/2017.
- * LoginActivity Controller
+ * Activity where user puts in login credentials
  */
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,8 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
 
     /**
-     * creates activity
-     * @param savedInstanceState
+     * creates login activity
+     * @param savedInstanceState data passed into activity
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

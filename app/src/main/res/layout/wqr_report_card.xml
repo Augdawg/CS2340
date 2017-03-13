@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/locationlabel"
-            android:text="Condition: "
+            android:text="Overall Condition: "
             android:textStyle="bold"
             android:id="@+id/conditionlabel"/>
         <TextView
@@ -74,21 +74,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/conditionlabel"
-            android:text="Type: "
+            android:text="Virus PPM: "
             android:textStyle="bold"
-            android:id="@+id/typelabel"/>
+            android:id="@+id/viruslabel"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:id="@+id/type"
+            android:id="@+id/virus"
             android:layout_below="@+id/condition"
+            android:text="stuff" />
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viruslabel"
+        android:text="Contaminant PPM: "
+        android:textStyle="bold"
+        android:id="@+id/contaminantlabel"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/contaminant"
+            android:layout_below="@+id/virus"
             android:text="stuff" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/typelabel"
+            android:layout_below="@+id/contaminantlabel"
             android:text="Date: "
             android:textStyle="bold"
             android:id="@+id/datelabel"/>
@@ -97,8 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:id="@+id/date"
-            android:layout_below="@+id/type"
+            android:layout_below="@+id/contaminant"
             android:text="stuff" />
-
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+
+    </android.support.v7.widget.CardView>

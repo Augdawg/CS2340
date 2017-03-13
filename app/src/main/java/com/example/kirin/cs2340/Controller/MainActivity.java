@@ -14,7 +14,7 @@ import com.example.kirin.cs2340.Model.*;
 import java.util.List;
 
 /**
- * MainActivity Controller
+ * Represents the login or register choice activity
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * creates activity
-     * @param savedInstanceState
+     * @param savedInstanceState data passed into activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Migrates to LoginActivity
-     * @param view
+     * Migrates to LoginActivity if credentials correct
+     * @param view current view
      */
     public void loginPressed(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Migrates to RegisterActivity
-     * @param view
+     * @param view current view
      */
     public void registerPressed(View view) {
         Intent intent = new Intent(this, RegistrationActivity.class);

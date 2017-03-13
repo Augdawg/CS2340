@@ -1,37 +1,35 @@
 package com.example.kirin.cs2340.Controller;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
 
 import java.util.List;
 
 /**
- * Created by Kirin on 3/8/2017.
- * List adapter for report view
+ * Created by Kirin on 3/11/2017.
  */
 
-public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
-    private List<WaterSourceReport> reports;
+public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRViewHolder> {
+    private List<WaterQualityReport> reports;
 
     /**
      * List item holder that holds report view fields
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class WQRViewHolder extends RecyclerView.ViewHolder {
         public View v;
 
         /**
          * Constructor for ViewHolder
          * @param v the view to be displayed
          */
-        public ViewHolder(View v) {
+        public WQRViewHolder(View v) {
             super(v);
             this.v = v;
         }
@@ -41,7 +39,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
      * Constructor for report adapter
      * @param dataSet the content for the list view
      */
-    public ReportAdapter(List<WaterSourceReport> dataSet) {
+    public WQRReportAdapter(List<WaterQualityReport> dataSet) {
         this.reports = dataSet;
     }
 
@@ -59,9 +57,9 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
      * @param viewType the type of view
      * @return new list item view
      */
-    public ReportAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.report_card, parent, false);
-        return new ReportAdapter.ViewHolder(itemView);
+    public WQRReportAdapter.WQRViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.wqr_report_card, parent, false);
+        return new WQRReportAdapter.WQRViewHolder(itemView);
     }
 
     /**
@@ -69,19 +67,21 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
      * @param viewHolder the list item view
      * @param i index of item in overall list that needs populated fields
      */
-    public void onBindViewHolder(ReportAdapter.ViewHolder viewHolder, int i) {
-        WaterSourceReport wsr = (WaterSourceReport) reports.get(i);
+    public void onBindViewHolder(WQRReportAdapter.WQRViewHolder viewHolder, int i) {
+        WaterQualityReport wqr = (WaterQualityReport) reports.get(i);
         TextView tv = (TextView) viewHolder.v.findViewById(R.id.reportid);
-        tv.setText(Integer.toString(wsr.getReportNumber()));
+        tv.setText(Integer.toString(wqr.getReportId()));
         tv = (TextView) viewHolder.v.findViewById(R.id.submitter);
-        tv.setText(wsr.getName());
+        tv.setText(wqr.getName());
         tv = (TextView) viewHolder.v.findViewById(R.id.location);
-        tv.setText("(" + wsr.getLat() + ", " + wsr.getLng() + ")");
+        tv.setText("(" + wqr.getLat() + ", " + wqr.getLng() + ")");
         tv = (TextView) viewHolder.v.findViewById(R.id.condition);
-        tv.setText(wsr.getWaterCondition());
-        tv = (TextView) viewHolder.v.findViewById(R.id.type);
-        tv.setText(wsr.getWaterType());
+        tv.setText(wqr.getCondition().toString());
+        tv = (TextView) viewHolder.v.findViewById(R.id.virus);
+        tv.setText(Integer.toString(wqr.getVirusPPM()));
+        tv = (TextView) viewHolder.v.findViewById(R.id.contaminant);
+        tv.setText(Integer.toString(wqr.getContaminantPPM()));
         tv = (TextView) viewHolder.v.findViewById(R.id.date);
-        tv.setText(wsr.getDate().toString());
+        tv.setText(wqr.getDate().toString());
     }
 }

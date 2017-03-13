@@ -8,25 +8,23 @@ package com.example.kirin.cs2340.Model;
 public class Worker extends User {
     /**
      * Worker constructor
-     * @param username
-     * @param password
-     * @param email
-     * @param home
-     * @param title
+     * @param username username of worker
+     * @param password password of worker
+     * @param email email address of worker
+     * @param home home address of worker
+     * @param title title of worker
      */
     public Worker(String name, String username, String password, String email, String home, String title) {
         super(name, username, password, email, home, title);
     }
+
+    /**
+     * Default constructor of worker, creates empty fields
+     */
     public Worker() {
         super("", "", "", "", "", "");
     }
 
-    /**
-     * Submits water purity report
-     */
-    public void submitWaterPurityReport() {
-
-    }
 
     /**
      * Gets string representation of Account Type

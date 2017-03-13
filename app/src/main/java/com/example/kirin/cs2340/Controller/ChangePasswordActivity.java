@@ -15,17 +15,26 @@ import com.example.kirin.cs2340.R;
 
 /**
  * Created by Kirin on 3/7/2017.
+ * Activity when  user inputs a new password
  */
-
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText newPass;
+
+    /**
+     * Runs on creation of activity
+     * @param savedInstanceState any data passed into the activity
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         newPass = (EditText) findViewById(R.id.newpassword);
     }
 
+    /**
+     * Executes the password change
+     * @param v the current view
+     */
     public void changePassword(View v) {
         if (newPass.getText() != null && !newPass.getText().toString().equals("")) {
             String currentUser = ForgotPassUser.getInstance().getUsername();

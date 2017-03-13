@@ -29,18 +29,35 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Report"
+        android:text="Submit WSR Report"
         android:layout_below="@+id/profileButton"
         android:onClick="submitPressed"
         android:id="@+id/submitbtn"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Report"
+        android:text="View WSR Reports"
         android:layout_below="@+id/submitbtn"
         android:onClick="viewReportPressed"
         android:id="@+id/viewreport"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Quality Report"
+        android:layout_below="@+id/logoutbutton"
+        android:layout_alignParentRight="true"
+        android:onClick="submitQualityReport"
+        android:id="@+id/submitWQRbtn"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Quality Reports"
+        android:layout_below="@+id/submitWQRbtn"
+        android:layout_alignParentRight="true"
+        android:onClick="viewQualityReports"
+        android:id="@+id/viewWQRreports"/>
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"

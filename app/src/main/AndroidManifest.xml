@@ -7,12 +7,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-permission android:name="android.permission.INTERNET"/>
-        <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB4r3Zqs4NKggOwx_4soClOHgkzYVZd-Mk" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB4r3Zqs4NKggOwx_4soClOHgkzYVZd-Mk" />
+
         <activity android:name=".Controller.MainActivity">
             <uses-library android:name="com.google.android.maps" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,31 +26,39 @@
         </activity>
         <activity
             android:name=".Controller.LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".Controller.WelcomeActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".Controller.RegistrationActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".Controller.EditActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".Controller.WaterSourceReportActivity"
-            android:label="cs2340"></activity>
+            android:label="cs2340" />
         <activity
             android:name=".Controller.ForgotPasswordActivity"
-            android:label="cs2340"></activity>
+            android:label="cs2340" />
         <activity
             android:name=".Controller.ChangePasswordActivity"
-            android:label="cs2340"></activity>
+            android:label="cs2340" />
         <activity
             android:name=".Controller.ViewSourceActivity"
-            android:label="cs2340"></activity>
+            android:label="cs2340" />
+        <activity
+            android:name=".Controller.SubmitQualityActivity"
+            android:label="cs2340" />
+        <activity
+            android:name=".Controller.ViewQualityActivity"
+            android:label="cs2340" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>

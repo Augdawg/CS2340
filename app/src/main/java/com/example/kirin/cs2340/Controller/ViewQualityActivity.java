@@ -4,44 +4,42 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
-import com.example.kirin.cs2340.Model.WaterSourceReport;
+import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Kirin on 2/28/2017.
- * Displays list of submitted reports
+ * Created by Kirin on 3/11/2017.
  */
 
-public class ViewSourceActivity extends AppCompatActivity {
+public class ViewQualityActivity extends AppCompatActivity {
     private RecyclerView rv;
     private RecyclerView.Adapter adapter;
     private LinearLayoutManager mLayoutManager;
 
     /**
-     * Creates Source Report viewiing activity
+     * Creates Quality Report viewing activity
      * @param savedInstanceState data passed into the activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewsource);
-        rv = (RecyclerView) findViewById(R.id.sourcereports);
+        setContentView(R.layout.activity_view_quality);
+
+        rv = (RecyclerView) findViewById(R.id.qualityreports);
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(mLayoutManager);
 
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        List<WaterSourceReport> reports = new ArrayList<>();
-        reports.addAll(db.getAllWSRReports());
+        List<WaterQualityReport> reports = new ArrayList<>();
+        reports.addAll(db.getAllWQRReports());
 
-        ReportAdapter adapter = new ReportAdapter(reports);
+        WQRReportAdapter adapter = new WQRReportAdapter(reports);
         rv.setAdapter(adapter);
     }
 }

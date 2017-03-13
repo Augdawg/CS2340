@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Created by Kirin on 2/19/2017.
- * EditActivity Controller
+ * Activity that edits profile information
  */
 
 public class EditActivity extends AppCompatActivity {
@@ -31,8 +31,8 @@ public class EditActivity extends AppCompatActivity {
     private TextView accType;
 
     /**
-     * Creates activity
-     * @param savedInstanceState
+     * Creates edit activity
+     * @param savedInstanceState data passed into activity
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class EditActivity extends AppCompatActivity {
 
     /**
      * Saves edited data
-     * @param v
+     * @param v current view
      */
     public void savePressed(View v) {
         GeneralUser cu = CurrentUser.getInstance().getCurrentUser();

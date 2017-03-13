@@ -8,12 +8,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
+import com.example.kirin.cs2340.Model.Manager;
+import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
+import com.example.kirin.cs2340.Model.Worker;
 import com.example.kirin.cs2340.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -31,7 +35,7 @@ import java.util.List;
 
 /**
  * Created by Kirin on 2/14/2017.
- * WelcomeActivity Controller
+ * Activity that welcomes user upon login or registration
  */
 
 public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -39,6 +43,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     private TextView text;
     private MapView mv;
     private GoogleMap gm;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -46,8 +51,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     private GoogleApiClient client;
 
     /**
-     * Creates Activity
-     *
+     * Creates Welcoming Activity
      * @param savedInstanceState bundle data transfer
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +60,33 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         text = (TextView) findViewById(R.id.welcometext);
         text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
         ((MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment)).getMapAsync(this);
-        int x = 0;
-        /*mv.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                gm = googleMap;
-            }
-        });*/
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        if (!(CurrentUser.getInstance().getCurrentUser() instanceof Worker)) {
+            Button btn = (Button) findViewById(R.id.submitWQRbtn);
+            btn.setEnabled(false);
+        }
+        if (!(CurrentUser.getInstance().getCurrentUser() instanceof Manager)) {
+            Button btn = (Button) findViewById(R.id.viewWQRreports);
+            btn.setEnabled(false);
+        }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    /**
+     * Runs when the google map is ready
+     * @param map the google map to be viewed
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         gm = map;
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        List<WaterSourceReport> wsrReports = db.getAllReports();
+        List<WaterSourceReport> wsrReports = db.getAllWSRReports();
+        List<WaterQualityReport> wqrReports = db.getAllWQRReports();
         for (WaterSourceReport r : wsrReports) {
+            LatLng l = new LatLng(r.getLat(), r.getLng());
+            gm.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+        }
+
+        for (WaterQualityReport r : wqrReports) {
             LatLng l = new LatLng(r.getLat(), r.getLng());
             gm.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
         }
@@ -119,7 +132,6 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
 
     /**
      * Logs out current user
-     *
      * @param v current view
      */
     public void logoutPressed(View v) {
@@ -130,7 +142,6 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
 
     /**
      * Opens edit activity to edit profile
-     *
      * @param v current view
      */
     public void editPressed(View v) {
@@ -138,13 +149,30 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         startActivity(intent);
     }
 
+    /**
+     * Migrates to Water Source Report submit page
+     * @param v the current view
+     */
     public void submitPressed(View v) {
         Intent intent = new Intent(this, WaterSourceReportActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Migrates to view Water Source Reports page
+     * @param v the current view
+     */
     public void viewReportPressed(View v) {
         Intent intent = new Intent(this, ViewSourceActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Migrates to View Quality Reports page
+     * @param v the current view
+     */
+    public void viewQualityReports(View v) {
+        Intent intent = new Intent(this, ViewQualityActivity.class);
         startActivity(intent);
     }
 
@@ -164,6 +192,9 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
                 .build();
     }
 
+    /**
+     * Runs when activity starts
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -174,6 +205,9 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
+    /**
+     * Runs when activity stops
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -182,5 +216,10 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    public void submitQualityReport(View v) {
+        Intent intent = new Intent(this, SubmitQualityActivity.class);
+        startActivity(intent);
     }
 }

@@ -12,6 +12,7 @@ import com.example.kirin.cs2340.R;
 
 /**
  * Created by Kirin on 3/7/2017.
+ * Activity that asks for email code to validate user
  */
 
 public class ForgotPasswordActivity extends AppCompatActivity {
@@ -19,12 +20,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private String username;
     private EditText givenCode;
 
+    /**
+     * Runs on creation of activity
+     * @param savedInstanceState data passed in
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         givenCode = (EditText) findViewById(R.id.code);
     }
 
+    /**
+     * Checks that email code user inputs is valid
+     * @param view current view
+     */
     public void checkCode(View view) {
         ForgotPassUser user = ForgotPassUser.getInstance();
         if (ForgotPassUser.getInstance().getPasswordCodes().get(user.getUsername()).equals(givenCode.getText().toString())) {

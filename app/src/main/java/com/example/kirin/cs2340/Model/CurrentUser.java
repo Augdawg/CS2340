@@ -28,9 +28,18 @@ public class CurrentUser {
         return instance;
     }
 
+    /**
+     * Gets current user of application
+     * @return current user of application
+     */
     public GeneralUser getCurrentUser() {
         return this.currentUser;
     }
+
+    /**
+     * Sets current user of application
+     * @param val user to set current user to
+     */
     public void setCurrentUser(GeneralUser val) {
         this.currentUser = val;
     }

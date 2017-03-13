@@ -32,7 +32,7 @@ public class WaterSourceReportActivity extends AppCompatActivity {
     RadioGroup conditionInput;
     Button submitButton;
     /**
-     * Creates Activity
+     * Creates Water Source Report submitting activity
      * @param savedInstanceState bundle data transfer
      */
     @Override
@@ -61,9 +61,7 @@ public class WaterSourceReportActivity extends AppCompatActivity {
 
         WaterSourceReport wsr = new WaterSourceReport(u.getName(), lat, longi, type, condition, date);
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        db.addReport(wsr);
-        List<WaterSourceReport> ws = db.getAllReports();
-
+        db.addWSRReport(wsr);
         Toast.makeText(getApplicationContext(), "Water Source Report Submitted",
                 Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, WelcomeActivity.class);
@@ -73,6 +71,10 @@ public class WaterSourceReportActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Cancels the submission
+     * @param v the current view
+     */
     public void cancelClick(View v) {
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
