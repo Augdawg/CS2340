@@ -27,7 +27,7 @@ import java.util.Locale;
 
 /**
  * Created by Kirin on 3/8/2017.
- * Water source report database
+ * Database that holds all reports
  */
 
 public class WSRDBHandler extends SQLiteOpenHelper {
@@ -96,7 +96,7 @@ public class WSRDBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Adds a report to the db
+     * Adds a wsr report to the db
      * @param report the report to be added
      */
     public void addWSRReport(WaterSourceReport report) {
@@ -114,6 +114,10 @@ public class WSRDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Adds a wqr report to the db
+     * @param report the report to be added
+     */
     public void addWQRReport(WaterQualityReport report) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -163,6 +167,10 @@ public class WSRDBHandler extends SQLiteOpenHelper {
         return reports;
     }
 
+    /**
+     * Gets all wqr reports from db
+     * @return all wqr reports from db
+     */
     public List<WaterQualityReport> getAllWQRReports() {
         List<WaterQualityReport> reports = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + WQR_TABLE;

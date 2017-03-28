@@ -57,8 +57,8 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        text = (TextView) findViewById(R.id.welcometext);
-        text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
+        //text = (TextView) findViewById(R.id.welcometext);
+        //text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
         ((MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment)).getMapAsync(this);
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Worker)) {
             Button btn = (Button) findViewById(R.id.submitWQRbtn);
@@ -126,7 +126,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     @Override
     protected void onResume() {
         super.onResume();
-        text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
+        //text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
 
     }
 
@@ -218,8 +218,21 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         client.disconnect();
     }
 
+    /**
+     * Runs when submit quality report is pressed to migrate to submission page
+     * @param v current view
+     */
     public void submitQualityReport(View v) {
         Intent intent = new Intent(this, SubmitQualityActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Runs when user wants to view the WQR history
+     * @param v the current view
+     */
+    public void qualityGraphClick(View v) {
+        Intent intent = new Intent(this, QualityGraphActivity.class);
         startActivity(intent);
     }
 }

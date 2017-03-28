@@ -23,6 +23,7 @@ import java.util.Properties;
 
 /**
  * Created by Kirin on 3/7/2017.
+ * Sends maiil for forgot password functionality
  */
 
 public class GMailSender extends Authenticator {
@@ -31,6 +32,11 @@ public class GMailSender extends Authenticator {
     private String password;
     private Session session;
 
+    /**
+     * Constructor for an email sender
+     * @param user sender's username
+     * @param password sender's password
+     */
     public GMailSender(String user, String password) {
         this.user = user;
         this.password = password;
@@ -44,14 +50,30 @@ public class GMailSender extends Authenticator {
         session = Session.getDefaultInstance(props, this);
     }
 
+    /**
+     * Gets current user of sender
+     * @return current user of sender
+     */
     public String getUser() {
         return this.user;
     }
 
+    /**
+     * Returns an object that authenticates user
+     * @return object that authenticates user
+     */
     protected PasswordAuthentication getPasswordAuthentication() {
         return new PasswordAuthentication(user, password);
     }
 
+    /**
+     * Sends mail to forgot password recipient
+     * @param subject subject of email
+     * @param body text of email
+     * @param sender sender of email
+     * @param recipients recipients of email
+     * @throws Exception Checked exception thrown by Transport
+     */
     public synchronized void sendMail(String subject, String body, String sender, String recipients) throws Exception {
         try{
             final MimeMessage message = new MimeMessage(session);
@@ -90,25 +112,45 @@ public class GMailSender extends Authenticator {
         }
     }
 
+    /**
+     * Inner class that creates email text
+     */
     public class ByteArrayDataSource implements DataSource {
         private byte[] data;
         private String type;
 
+        /**
+         * Constructor for ByteArrayDataSource
+         * @param data the data to write to message
+         * @param type the type of data
+         */
         public ByteArrayDataSource(byte[] data, String type) {
             super();
             this.data = data;
             this.type = type;
         }
 
+        /**
+         * Constructor for ByteArrayDataSrouce
+         * @param data the data to write to message
+         */
         public ByteArrayDataSource(byte[] data) {
             super();
             this.data = data;
         }
 
+        /**
+         * Sets type of data
+         * @param type type of data
+         */
         public void setType(String type) {
             this.type = type;
         }
 
+        /**
+         * Gets content type of message
+         * @return content type of message
+         */
         public String getContentType() {
             if (type == null)
                 return "application/octet-stream";
@@ -116,14 +158,28 @@ public class GMailSender extends Authenticator {
                 return type;
         }
 
+        /**
+         * Gets new input stream object
+         * @return input stream object
+         * @throws IOException checked IOException thrown
+         */
         public InputStream getInputStream() throws IOException {
             return new ByteArrayInputStream(data);
         }
 
+        /**
+         * Gets name of object
+         * @return name of object
+         */
         public String getName() {
             return "ByteArrayDataSource";
         }
 
+        /**
+         * Unsupported output stream method
+         * @return nothing, as unsupported
+         * @throws IOException to show as unsupported
+         */
         public OutputStream getOutputStream() throws IOException {
             throw new IOException("Not Supported");
         }

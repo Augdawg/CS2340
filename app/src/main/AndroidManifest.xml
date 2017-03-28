@@ -54,6 +54,9 @@
         <activity
             android:name=".Controller.ViewQualityActivity"
             android:label="cs2340" />
+        <activity
+            android:name=".Controller.QualityGraphActivity"
+            android:label="cs2340" />
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by Kirin on 3/11/2017.
+ * Serves as adapter to give each report a view
  */
 
 public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRViewHolder> {

@@ -3,13 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to our app!"
-        android:id="@+id/welcometext"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,8 +17,7 @@
         android:layout_height="wrap_content"
         android:text="Edit Profile"
         android:id="@+id/profileButton"
-        android:onClick="editPressed"
-        android:layout_below="@+id/welcometext"/>
+        android:onClick="editPressed" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,11 +50,20 @@
         android:layout_alignParentRight="true"
         android:onClick="viewQualityReports"
         android:id="@+id/viewWQRreports"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quality Graph"
+        android:id="@+id/qualityGraphBtn"
+        android:layout_below="@+id/viewWQRreports"
+        android:layout_alignParentRight="true"
+        android:onClick="qualityGraphClick"/>
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mapfragment"
-        android:layout_alignBaseline="@+id/viewreport"
+        android:layout_alignBaseline="@+id/qualityGraphBtn"
         android:layout_centerHorizontal="true"
         android:name="com.google.android.gms.maps.MapFragment"/>
 

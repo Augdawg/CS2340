@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by Kirin on 3/11/2017.
+ * Activity that displays all Water Quality Reports submitted so far
  */
 
 public class ViewQualityActivity extends AppCompatActivity {

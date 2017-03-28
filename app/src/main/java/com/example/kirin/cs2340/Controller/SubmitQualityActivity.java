@@ -21,6 +21,10 @@ import java.util.List;
 
 import static com.example.kirin.cs2340.R.id.longInput;
 
+/**
+ * Created by Kirin on 3/8/2017.
+ * Activity where user submits a Water Quality Report
+ */
 public class SubmitQualityActivity extends AppCompatActivity {
 
     private EditText latInput;
@@ -29,6 +33,10 @@ public class SubmitQualityActivity extends AppCompatActivity {
     private EditText virusPPMInput;
     private EditText contaminantPPMInput;
 
+    /**
+     * Creates the Water Quality Report submission activity
+     * @param savedInstanceState data passed to activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,10 @@ public class SubmitQualityActivity extends AppCompatActivity {
         contaminantPPMInput = (EditText) findViewById(R.id.contaminantPPM);
     }
 
+    /**
+     * Runs on press of submit to submit report
+     * @param v the current view
+     */
     public void submitClick(View v) {
         Date date = new Date();
         double lat = Double.parseDouble(latInput.getText().toString());
