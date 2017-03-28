@@ -16,18 +16,35 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VIRUS"/>
+            android:text="VIRUS"
+            android:id="@+id/virus"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONTAMINANT"/>
+            android:text="CONTAMINANT"
+            android:id="@+id/contaminant"/>
     </RadioGroup>
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:id="@+id/lat"
+        android:hint="Latitude"
+        android:layout_below="@+id/graph_input"/>
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:id="@+id/lng"
+        android:hint="Longitude"
+        android:layout_below="@+id/graph_input"
+        android:layout_toRightOf="@+id/lat"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search"
         android:id="@+id/search_btn"
-        android:layout_below="@+id/graph_input"
+        android:layout_below="@+id/lat"
         android:layout_centerHorizontal="true"
         android:onClick="updateGraph"/>
     <com.jjoe64.graphview.GraphView
