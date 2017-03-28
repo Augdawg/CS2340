@@ -8,42 +8,26 @@
         android:hint="Year"
         android:inputType="number"
         android:id="@+id/year_input"/>
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:hint="Lower lat bound"
-        android:id="@+id/low_lat_bound"
-        android:inputType="numberDecimal|numberSigned"
-        android:layout_below="@+id/year_input"/>
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:hint="Upper lat bound"
-        android:id="@+id/upper_lat_bound"
-        android:layout_below="@id/year_input"
-        android:inputType="numberDecimal|numberSigned"
-        android:layout_toRightOf="@+id/low_lat_bound"/>
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:hint="Lower lng bound"
-        android:id="@+id/low_lng_bound"
-        android:inputType="numberDecimal|numberSigned"
-        android:layout_below="@+id/low_lat_bound"/>
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:hint="Upper lat bound"
-        android:id="@+id/upper_lng_bound"
-        android:layout_below="@id/upper_lat_bound"
-        android:inputType="numberDecimal|numberSigned"
-        android:layout_toRightOf="@+id/low_lng_bound"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/graph_input"
+        android:layout_below="@+id/year_input">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VIRUS"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONTAMINANT"/>
+    </RadioGroup>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search"
         android:id="@+id/search_btn"
-        android:layout_below="@+id/upper_lng_bound"
+        android:layout_below="@+id/graph_input"
         android:layout_centerHorizontal="true"
         android:onClick="updateGraph"/>
     <com.jjoe64.graphview.GraphView
