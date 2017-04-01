@@ -11,7 +11,7 @@
     tools:context="com.example.kirin.cs2340.Controller.MainActivity">
 
     <TextView
-        android:text="Welcome to our app!"
+        android:text="@string/activity_main_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -20,7 +20,7 @@
         android:id="@+id/textView" />
 
     <Button
-        android:text="Register"
+        android:text="@string/activity_main_register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/login"
@@ -30,7 +30,7 @@
         android:onClick="registerPressed"/>
 
     <Button
-        android:text="Login"
+        android:text="@string/activity_main_login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"

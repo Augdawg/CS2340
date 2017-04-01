@@ -18,10 +18,6 @@ import java.util.List;
  */
 
 public class ViewQualityActivity extends AppCompatActivity {
-    private RecyclerView rv;
-    private RecyclerView.Adapter adapter;
-    private LinearLayoutManager mLayoutManager;
-
     /**
      * Creates Quality Report viewing activity
      * @param savedInstanceState data passed into the activity
@@ -31,8 +27,8 @@ public class ViewQualityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_quality);
 
-        rv = (RecyclerView) findViewById(R.id.qualityreports);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView rv = (RecyclerView) findViewById(R.id.quality_reports);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(mLayoutManager);
 

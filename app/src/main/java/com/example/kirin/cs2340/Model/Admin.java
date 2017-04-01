@@ -2,13 +2,10 @@ package com.example.kirin.cs2340.Model;
 
 /**
  * Created by Kirin on 2/22/2017.
- */
-
-/**
  * Represents Admin User object
  */
 public class Admin extends GeneralUser {
-    private int id;
+    private final int id;
     private String name;
     private String username;
     private String password;
@@ -39,37 +36,6 @@ public class Admin extends GeneralUser {
      */
     public Admin() {
         this("", "", "", "", "", "");
-    }
-
-    /**
-     * Deletes an account
-     * @param user user to be deleted
-     */
-    public void deleteAccount(User user) {
-        //implement
-    }
-
-    /**
-     * Bans user from submitting reports
-     * @param user user to be banned
-     */
-    public void banUser(User user) {
-        //implement
-    }
-
-    /**
-     * Unbans user from submitting reports
-     * @param user user to be unbanned
-     */
-    public void unblockUser(User user) {
-        //implement
-    }
-
-    /**
-     * Shows security log to admin
-     */
-    public void viewSecurityLog() {
-        //implement
     }
 
     /**

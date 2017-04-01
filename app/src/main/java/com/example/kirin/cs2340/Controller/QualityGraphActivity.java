@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
@@ -15,10 +14,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +39,7 @@ public class QualityGraphActivity extends AppCompatActivity {
         dataType = (RadioGroup) findViewById(R.id.graph_input);
         latitude = (EditText) findViewById(R.id.lat);
         longitude = (EditText) findViewById(R.id.lng);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
                 new DataPoint(2, 3),
@@ -65,7 +61,6 @@ public class QualityGraphActivity extends AppCompatActivity {
         double halfMileCoordinate = 0.00725;
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
         List<WaterQualityReport> wqr = db.getAllWQRReports();
-        int[] data = new int[12];
         double lowLat = Double.parseDouble(latitude.getText().toString()) - halfMileCoordinate;
         double highLat = Double.parseDouble(latitude.getText().toString()) + halfMileCoordinate;
         double lowLng = Double.parseDouble(longitude.getText().toString()) - halfMileCoordinate;

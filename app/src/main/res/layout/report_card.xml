@@ -15,90 +15,84 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report ID: "
+            android:text="@string/activity_report_card_report_id_hint"
             android:textStyle="bold"
-            android:id="@+id/reportidlabel"/>
+            android:id="@+id/report_id_label"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/reportid"
-            android:text="stuff"
+            android:id="@+id/report_id"
             android:layout_centerHorizontal="true"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reportidlabel"
-            android:text="Submitter: "
+            android:layout_below="@+id/report_id_label"
+            android:text="@string/activity_report_card_submitter_hint"
             android:textStyle="bold"
-            android:id="@+id/submitterlabel"/>
+            android:id="@+id/submitter_label"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:id="@+id/submitter"
-            android:text="stuff"
-            android:layout_below="@+id/reportid"/>
+            android:layout_below="@+id/report_id"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/submitterlabel"
-            android:text="Location: "
+            android:layout_below="@+id/submitter_label"
+            android:text="@string/report_card_location"
             android:textStyle="bold"
-            android:id="@+id/locationlabel"/>
+            android:id="@+id/location_label"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="stuff"
             android:id="@+id/location"
             android:layout_below="@+id/submitter"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/locationlabel"
-            android:text="Condition: "
+            android:layout_below="@+id/location_label"
+            android:text="@string/condition_colon"
             android:textStyle="bold"
-            android:id="@+id/conditionlabel"/>
+            android:id="@+id/condition_label"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:id="@+id/condition"
-            android:layout_below="@+id/location"
-            android:text="stuff"/>
+            android:layout_below="@+id/location" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/conditionlabel"
-            android:text="Type: "
+            android:layout_below="@+id/condition_label"
+            android:text="@string/type_colon"
             android:textStyle="bold"
-            android:id="@+id/typelabel"/>
+            android:id="@+id/type_label"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:id="@+id/type"
-            android:layout_below="@+id/condition"
-            android:text="stuff" />
+            android:layout_below="@+id/condition" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/typelabel"
-            android:text="Date: "
+            android:layout_below="@+id/type_label"
+            android:text="@string/date_colon"
             android:textStyle="bold"
-            android:id="@+id/datelabel"/>
+            android:id="@+id/date_label"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:id="@+id/date"
-            android:layout_below="@+id/type"
-            android:text="stuff" />
+            android:layout_below="@+id/type" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

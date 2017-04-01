@@ -30,12 +30,16 @@ public class WaterSourceReport {
         this.lat = lat;
         this.lng = lng;
         this.type = WaterType.valueOf(type.toUpperCase());
-        if (condition.equals("Treatable-Muddy")) {
-            this.condition = WaterCondition.MUDDY;
-        } else if (condition.equals("Treatable-Clear")) {
-            this.condition = WaterCondition.CLEAR;
-        } else {
-            this.condition = WaterCondition.valueOf(condition.toUpperCase());
+        switch (condition) {
+            case "Treatable-Muddy":
+                this.condition = WaterCondition.MUDDY;
+                break;
+            case "Treatable-Clear":
+                this.condition = WaterCondition.CLEAR;
+                break;
+            default:
+                this.condition = WaterCondition.valueOf(condition.toUpperCase());
+                break;
         }
         this.date = date;
         reportNumber = Math.abs(this.hashCode());
@@ -62,14 +66,6 @@ public class WaterSourceReport {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * gets condition of water of report
-     * @return condition of water of report
-     */
-    public WaterCondition getCondition() {
-        return condition;
     }
 
     /**

@@ -5,9 +5,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Water Quality Report"
+        android:text="@string/activity_submit_quality_title"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:id="@+id/title"/>
     <EditText
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:inputType="numberDecimal|numberSigned"
         android:ems="10"
         android:id="@+id/latInput"
-        android:hint="Location(Latitude)" />
+        android:hint="@string/activity_submit_quality_lat_hint" />
 
     <EditText
         android:layout_width="match_parent"
@@ -25,14 +25,14 @@
         android:ems="10"
         android:id="@+id/longInput"
         android:layout_below="@+id/latInput"
-        android:hint="Location(Longitude)" />
+        android:hint="@string/activity_submit_quality_lng_hint" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Condition"
+        android:text="@string/activity_submit_quality_condition"
         android:layout_below="@+id/longInput"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:id="@+id/conditionTitle"/>
 
@@ -40,25 +40,24 @@
         android:layout_width="match_parent"
         android:layout_height="66dp"
         android:id="@+id/conditionInput"
-        android:layout_below="@+id/conditionTitle"
-        android:layout_weight="0.78">
+        android:layout_below="@+id/conditionTitle">
 
         <RadioButton
-            android:text="Safe"
+            android:text="@string/safe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton"
             android:layout_weight="1" />
 
         <RadioButton
-            android:text="Treatable"
+            android:text="@string/treatable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton2"
             android:layout_weight="1.74" />
 
         <RadioButton
-            android:text="Unsafe"
+            android:text="@string/unsafe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioButton3"
@@ -75,7 +74,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="12dp"
         android:id="@+id/virusPPM"
-        android:hint="Virus PPM"/>
+        android:hint="@string/virus_ppm"/>
 
     <EditText
         android:layout_width="200dp"
@@ -87,12 +86,12 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
         android:id="@+id/contaminantPPM"
-        android:hint="Contaminant PPM"/>
+        android:hint="@string/contaminant_ppm"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Report"
+        android:text="@string/submit_report"
         android:layout_below="@+id/contaminantPPM"
         android:id="@+id/submitBtn"
         android:layout_centerHorizontal="true"

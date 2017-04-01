@@ -17,7 +17,6 @@ import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
 
 import java.util.Date;
-import java.util.List;
 
 import static com.example.kirin.cs2340.R.id.longInput;
 
@@ -55,14 +54,14 @@ public class SubmitQualityActivity extends AppCompatActivity {
     public void submitClick(View v) {
         Date date = new Date();
         double lat = Double.parseDouble(latInput.getText().toString());
-        double longi = Double.parseDouble(lngInput.getText().toString());
+        double lng = Double.parseDouble(lngInput.getText().toString());
         String cond = ((RadioButton)findViewById(conditionInput.getCheckedRadioButtonId())).getText().toString();
         int virusPPM = Integer.parseInt(virusPPMInput.getText().toString());
         int contaminantPPM = Integer.parseInt(contaminantPPMInput.getText().toString());
         OverallWaterCondition condition = OverallWaterCondition.valueOf(cond.toUpperCase());
 
         GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
-        WaterQualityReport wqr = new WaterQualityReport(cu.getName(), lat, longi, condition, virusPPM, contaminantPPM, date);
+        WaterQualityReport wqr = new WaterQualityReport(cu.getName(), lat, lng, condition, virusPPM, contaminantPPM, date);
 
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
         db.addWQRReport(wqr);

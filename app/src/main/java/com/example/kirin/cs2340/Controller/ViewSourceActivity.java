@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
@@ -20,20 +18,17 @@ import java.util.List;
  */
 
 public class ViewSourceActivity extends AppCompatActivity {
-    private RecyclerView rv;
-    private RecyclerView.Adapter adapter;
-    private LinearLayoutManager mLayoutManager;
 
     /**
-     * Creates Source Report viewiing activity
+     * Creates Source Report viewing activity
      * @param savedInstanceState data passed into the activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewsource);
-        rv = (RecyclerView) findViewById(R.id.sourcereports);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView rv = (RecyclerView) findViewById(R.id.source_reports);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(mLayoutManager);
 

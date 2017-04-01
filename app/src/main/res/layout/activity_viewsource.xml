@@ -5,7 +5,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sourcereports"
+        android:id="@+id/source_reports"
         android:scrollbars="vertical"
         />
 </RelativeLayout>

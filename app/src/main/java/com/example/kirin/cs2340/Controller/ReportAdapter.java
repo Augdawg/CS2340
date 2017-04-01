@@ -1,8 +1,6 @@
 package com.example.kirin.cs2340.Controller;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +17,13 @@ import java.util.List;
  */
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
-    private List<WaterSourceReport> reports;
+    private final List<WaterSourceReport> reports;
 
     /**
      * List item holder that holds report view fields
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View v;
+        public final View v;
 
         /**
          * Constructor for ViewHolder
@@ -70,9 +68,9 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
      * @param i index of item in overall list that needs populated fields
      */
     public void onBindViewHolder(ReportAdapter.ViewHolder viewHolder, int i) {
-        WaterSourceReport wsr = (WaterSourceReport) reports.get(i);
-        TextView tv = (TextView) viewHolder.v.findViewById(R.id.reportid);
-        tv.setText(Integer.toString(wsr.getReportNumber()));
+        WaterSourceReport wsr = reports.get(i);
+        TextView tv = (TextView) viewHolder.v.findViewById(R.id.report_id);
+        tv.setText(String.format(Integer.toString(wsr.getReportNumber())));
         tv = (TextView) viewHolder.v.findViewById(R.id.submitter);
         tv.setText(wsr.getName());
         tv = (TextView) viewHolder.v.findViewById(R.id.location);

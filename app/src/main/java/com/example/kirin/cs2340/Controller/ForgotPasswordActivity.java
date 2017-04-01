@@ -17,7 +17,6 @@ import com.example.kirin.cs2340.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private String username;
     private EditText givenCode;
 
     /**

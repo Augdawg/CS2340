@@ -5,18 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.example.kirin.cs2340.Model.Admin;
-import com.example.kirin.cs2340.Model.GeneralUser;
-import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.OverallWaterCondition;
-import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.WaterCondition;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.Model.WaterType;
-import com.example.kirin.cs2340.Model.Worker;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,8 +33,8 @@ public class WSRDBHandler extends SQLiteOpenHelper {
     private static final String WSR_NAME = "name";
     private static final String WSR_LAT = "lat";
     private static final String WSR_LNG = "lng";
-    private static final String WSR_WATERTYPE = "type";
-    private static final String WSR_WATERCONDITION = "condition";
+    private static final String WSR_WATER_TYPE = "type";
+    private static final String WSR_WATER_CONDITION = "condition";
     private static final String WSR_DATE = "date";
 
     private static final String WQR_TABLE = "WQRReportsTable";
@@ -71,7 +65,7 @@ public class WSRDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_WSR_TABLE = "CREATE TABLE " + WSR_TABLE
                 + "(" + WSR_REPORT_NUM + " TEXT," + WSR_NAME + " TEXT," + WSR_LAT + " TEXT,"
-                + WSR_LNG + " TEXT," + WSR_WATERTYPE + " TEXT," + WSR_WATERCONDITION + " TEXT,"
+                + WSR_LNG + " TEXT," + WSR_WATER_TYPE + " TEXT," + WSR_WATER_CONDITION + " TEXT,"
                 + WSR_DATE + " TEXT)";
         String CREATE_WQR_TABLE = "CREATE TABLE " + WQR_TABLE
                 + "(" + WQR_NUM + " TEXT," + WQR_NAME + " TEXT,"
@@ -107,8 +101,8 @@ public class WSRDBHandler extends SQLiteOpenHelper {
         values.put(WSR_NAME, report.getName());
         values.put(WSR_LAT, report.getLat());
         values.put(WSR_LNG, report.getLng());
-        values.put(WSR_WATERTYPE, report.getWaterType());
-        values.put(WSR_WATERCONDITION, report.getWaterCondition());
+        values.put(WSR_WATER_TYPE, report.getWaterType());
+        values.put(WSR_WATER_CONDITION, report.getWaterCondition());
         values.put(WSR_DATE, report.getDate().toString());
         db.insert(WSR_TABLE, null, values);
         db.close();
@@ -164,6 +158,7 @@ public class WSRDBHandler extends SQLiteOpenHelper {
                 reports.add(report);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return reports;
     }
 
@@ -198,18 +193,7 @@ public class WSRDBHandler extends SQLiteOpenHelper {
                 reports.add(report);
             } while (cursor.moveToNext());
         }
-
-
+        cursor.close();
         return reports;
-    }
-
-    /**
-     * Deletes report by id passed in
-     * @param id the id of the report to be deleted
-     */
-    public void deleteWSRReportByReportNum(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(WSR_TABLE, WSR_REPORT_NUM + " = ?", new String[]{Integer.toString(id)});
-        db.close();
     }
 }

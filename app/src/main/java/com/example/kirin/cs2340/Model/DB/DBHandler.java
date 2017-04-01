@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Kirin on 3/8/2017.
+ * Created by Kirin Bettadapur on 3/8/2017.
  * Database that holds all accounts
  */
 
@@ -91,39 +91,6 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Gets all users from db
-     * @return list of all users from db
-     */
-    public List<GeneralUser> getAllUsers() {
-        List<GeneralUser> users = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + TABLE_ACCOUNTS;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            GeneralUser user;
-            do {
-                if (cursor.getString(7).equals("USER")) {
-                    user = new User();
-                } else if (cursor.getString(7).equals("WORKER")) {
-                    user = new Worker();
-                } else if (cursor.getString(7).equals("MANAGER")) {
-                    user = new Manager();
-                } else {
-                    user = new Admin();
-                }
-                user.setName(cursor.getString(1));
-                user.setUsername(cursor.getString(2));
-                user.setPassword(cursor.getString(3));
-                user.setEmail(cursor.getString(4));
-                user.setHome(cursor.getString(5));
-                user.setTitle(cursor.getString(6));
-                users.add(user);
-            } while (cursor.moveToNext());
-        }
-        return users;
-    }
-
-    /**
      * Gets a user by passed in username
      * @param username the username to be checked against
      * @return user that has username of parameter
@@ -134,26 +101,28 @@ public class DBHandler extends SQLiteOpenHelper {
                 ACCOUNTS_PASSWORD, ACCOUNTS_EMAIL, ACCOUNTS_HOME, ACCOUNTS_TITLE, ACCOUNTS_TYPE},
                 ACCOUNTS_USERNAME + "=?", new String[] {username}, null, null, null, null);
         cursor.moveToFirst();
-        if (cursor != null && cursor.getCount() > 0) {
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             GeneralUser user;
             String name = cursor.getString(1);
-            String usern = cursor.getString(2);
+            String user_name = cursor.getString(2);
             String pass = cursor.getString(3);
             String email = cursor.getString(4);
             String home = cursor.getString(5);
             String title = cursor.getString(6);
             if (cursor.getString(7).equals("USER")) {
-                user = new User(name, usern, pass, email, home, title);
+                user = new User(name, user_name, pass, email, home, title);
             } else if (cursor.getString(7).equals("WORKER")) {
-                user = new Worker(name, usern, pass, email, home, title);
+                user = new Worker(name, user_name, pass, email, home, title);
             } else if (cursor.getString(7).equals("MANAGER")) {
-                user = new Manager(name, usern, pass, email, home, title);
+                user = new Manager(name, user_name, pass, email, home, title);
             } else {
-                user = new Admin(name, usern, pass, email, home, title);
+                user = new Admin(name, user_name, pass, email, home, title);
             }
+            cursor.close();
             return user;
         }
+        cursor.close();
         return null;
     }
 
@@ -161,7 +130,7 @@ public class DBHandler extends SQLiteOpenHelper {
      * Deletes a user by passed in username
      * @param username username of user to be deleted
      */
-    public void deleteUserByUsername(String username) {
+    private void deleteUserByUsername(String username) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ACCOUNTS, ACCOUNTS_USERNAME + " = ?", new String[]{username});
         db.close();

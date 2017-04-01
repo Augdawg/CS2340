@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class ForgotPassUser {
     private String username;
     private static ForgotPassUser instance;
-    private HashMap<String, String> passwordCodes;
+    private final HashMap<String, String> passwordCodes;
 
     /**
      * Constructor for a forgot password user
@@ -47,7 +47,7 @@ public class ForgotPassUser {
     }
 
     /**
-     * Adds a password code to the hashmap to help user recover password
+     * Adds a password code to the HashMap to help user recover password
      * @param user username of user who forgot password
      * @param code code to recover password
      */

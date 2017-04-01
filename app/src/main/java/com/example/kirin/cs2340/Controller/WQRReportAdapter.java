@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.kirin.cs2340.Model.WaterQualityReport;
-import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
 
 import java.util.List;
@@ -18,13 +17,13 @@ import java.util.List;
  */
 
 public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRViewHolder> {
-    private List<WaterQualityReport> reports;
+    private final List<WaterQualityReport> reports;
 
     /**
      * List item holder that holds report view fields
      */
     public static class WQRViewHolder extends RecyclerView.ViewHolder {
-        public View v;
+        public final View v;
 
         /**
          * Constructor for ViewHolder
@@ -69,9 +68,9 @@ public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRV
      * @param i index of item in overall list that needs populated fields
      */
     public void onBindViewHolder(WQRReportAdapter.WQRViewHolder viewHolder, int i) {
-        WaterQualityReport wqr = (WaterQualityReport) reports.get(i);
-        TextView tv = (TextView) viewHolder.v.findViewById(R.id.reportid);
-        tv.setText(Integer.toString(wqr.getReportId()));
+        WaterQualityReport wqr = reports.get(i);
+        TextView tv = (TextView) viewHolder.v.findViewById(R.id.report_id);
+        tv.setText(String.format(Integer.toString(wqr.getReportId())));
         tv = (TextView) viewHolder.v.findViewById(R.id.submitter);
         tv.setText(wqr.getName());
         tv = (TextView) viewHolder.v.findViewById(R.id.location);
@@ -79,9 +78,9 @@ public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRV
         tv = (TextView) viewHolder.v.findViewById(R.id.condition);
         tv.setText(wqr.getCondition().toString());
         tv = (TextView) viewHolder.v.findViewById(R.id.virus);
-        tv.setText(Integer.toString(wqr.getVirusPPM()));
+        tv.setText(String.format(Integer.toString(wqr.getVirusPPM())));
         tv = (TextView) viewHolder.v.findViewById(R.id.contaminant);
-        tv.setText(Integer.toString(wqr.getContaminantPPM()));
+        tv.setText(String.format(Integer.toString(wqr.getContaminantPPM())));
         tv = (TextView) viewHolder.v.findViewById(R.id.date);
         tv.setText(wqr.getDate().toString());
     }

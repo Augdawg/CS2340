@@ -5,7 +5,7 @@
     <EditText
         android:layout_width="400dp"
         android:layout_height="75dp"
-        android:hint="Year"
+        android:hint="@string/quality_year_label"
         android:inputType="number"
         android:id="@+id/year_input"/>
     <RadioGroup
@@ -16,33 +16,36 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VIRUS"
+            android:text="@string/activity_quality_graph_virus"
             android:id="@+id/virus"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONTAMINANT"
+            android:text="@string/activity_quality_graph_contaminant"
             android:id="@+id/contaminant"/>
     </RadioGroup>
     <EditText
-        android:layout_width="100dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:id="@+id/lat"
-        android:hint="Latitude"
+        android:hint="@string/activity_submit_quality_lat_hint"
         android:layout_below="@+id/graph_input"/>
     <EditText
-        android:layout_width="100dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:id="@+id/lng"
-        android:hint="Longitude"
+        android:hint="@string/activity_submit_quality_lng_hint"
         android:layout_below="@+id/graph_input"
-        android:layout_toRightOf="@+id/lat"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/activity_quality_graph_search"
         android:id="@+id/search_btn"
         android:layout_below="@+id/lat"
         android:layout_centerHorizontal="true"

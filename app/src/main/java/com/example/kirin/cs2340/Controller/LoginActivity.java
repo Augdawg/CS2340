@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     public void loginPressed(View view) {
         DBHandler db = new DBHandler(getApplicationContext());
         GeneralUser u = db.getUserByUsername(username.getText().toString());
-        List<GeneralUser> users = db.getAllUsers();
 
         if (u == null || !u.getPassword().equals(password.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
@@ -75,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                 Random r = new Random(System.currentTimeMillis());
                 key = Integer.toString(10000 + r.nextInt(20000));
                 ForgotPassUser.getInstance().addPasswordCode(userNeeded.getUsername(), key);
-                GMailSender sender = new GMailSender("waterdonotreply@yahoo.com", "water12345");
-                sender.sendMail("Water Password Reset", "Type in this code: " + key, sender.getUser(), userNeeded.getEmail());
+                GMailSender sender = new GMailSender();
+                sender.sendMail("Type in this code: " + key, sender.getUser(), userNeeded.getEmail());
                 Intent intent = new Intent(this, ForgotPasswordActivity.class);
                 ForgotPassUser.getInstance().setUsername(userNeeded.getUsername());
                 startActivity(intent);
@@ -85,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG).show();
         }
     }
 }

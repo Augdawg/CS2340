@@ -28,9 +28,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private EditText email;
-    private EditText homeaddress;
+    private EditText home_address;
     private EditText title;
-    private RadioGroup acctype;
+    private RadioGroup acc_type;
 
     /**
      * Creates Activity
@@ -45,9 +45,9 @@ public class RegistrationActivity extends AppCompatActivity {
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         email = (EditText) findViewById(R.id.email);
-        homeaddress = (EditText) findViewById(R.id.homeaddress);
+        home_address = (EditText) findViewById(R.id.home_address);
         title = (EditText) findViewById(R.id.title);
-        acctype = (RadioGroup) findViewById(R.id.acctype);
+        acc_type = (RadioGroup) findViewById(R.id.acc_type);
     }
 
     /**
@@ -56,28 +56,33 @@ public class RegistrationActivity extends AppCompatActivity {
      */
     public void registerClicked(View view) {
         String n = name.getText().toString();
-        String uname = username.getText().toString();
+        String u_name = username.getText().toString();
         String pass = password.getText().toString();
-        if (uname.trim().equals("") || pass.trim().equals("")) {
+        if (u_name.trim().equals("") || pass.trim().equals("")) {
             Toast.makeText(getApplicationContext(), "Invalid login credentials", Toast.LENGTH_SHORT).show();
         } else {
             String em = email.getText().toString();
-            String home = homeaddress.getText().toString();
+            String home = home_address.getText().toString();
             String ti = title.getText().toString();
-            int checked = acctype.getCheckedRadioButtonId();
+            int checked = acc_type.getCheckedRadioButtonId();
             if (checked == -1) {
                 Toast.makeText(getApplicationContext(), "Select an Account Type", Toast.LENGTH_SHORT).show();
             } else {
                 GeneralUser u;
                 String type = ((RadioButton)findViewById(checked)).getText().toString();
-                if (type.equals("USER")) {
-                    u = new User(n, uname, pass, em, home, ti);
-                } else if (type.equals("WORKER")) {
-                    u = new Worker(n, uname, pass, em, home, ti);
-                } else if (type.equals("MANAGER")) {
-                    u = new Manager(n, uname, pass, em, home, ti);
-                } else {
-                    u = new Admin(n, uname, pass, em, home, ti);
+                switch (type) {
+                    case "USER":
+                        u = new User(n, u_name, pass, em, home, ti);
+                        break;
+                    case "WORKER":
+                        u = new Worker(n, u_name, pass, em, home, ti);
+                        break;
+                    case "MANAGER":
+                        u = new Manager(n, u_name, pass, em, home, ti);
+                        break;
+                    default:
+                        u = new Admin(n, u_name, pass, em, home, ti);
+                        break;
                 }
                 CurrentUser.getInstance().setCurrentUser(u);
                 DBHandler db = new DBHandler(getApplicationContext());

@@ -8,13 +8,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/name"
-        android:hint="Name"/>
+        android:hint="@string/activity_registration_name_hint"/>
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/username"
-        android:hint="Username"
+        android:hint="@string/activity_registration_username_hint"
         android:layout_below="@+id/name"/>
     <EditText
         android:layout_width="200dp"
@@ -22,61 +22,62 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/password"
         android:layout_below="@+id/username"
-        android:hint="Password"
+        android:hint="@string/activity_registration_password_hint"
         android:inputType="textPassword"/>
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/email"
+        android:inputType="textEmailAddress"
         android:layout_below="@+id/password"
-        android:hint="Email Address"/>
+        android:hint="@string/activity_edit_email_hint"/>
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/homeaddress"
+        android:id="@+id/home_address"
         android:layout_below="@+id/email"
-        android:hint="Home Address"/>
+        android:hint="@string/activity_edit_home_hint"/>
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/title"
-        android:layout_below="@+id/homeaddress"
-        android:hint="Title"/>
+        android:layout_below="@+id/home_address"
+        android:hint="@string/activity_edit_title"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/acctypelabel"
+        android:id="@+id/acc_type_label"
         android:layout_below="@+id/title"
-        android:text="Account Type:"
+        android:text="@string/activity_registration_account_type"
         android:layout_centerHorizontal="true"/>
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/acctypelabel"
-        android:id="@+id/acctype"
+        android:layout_below="@+id/acc_type_label"
+        android:id="@+id/acc_type"
         android:layout_centerHorizontal="true">
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="USER"
+            android:text="@string/user"
             android:id="@+id/user"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="WORKER"
+            android:text="@string/worker"
             android:id="@+id/worker"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MANAGER"
+            android:text="@string/manager"
             android:id="@+id/manager"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ADMIN"
+            android:text="@string/admin"
             android:id="@+id/admin"/>
 
     </RadioGroup>
@@ -84,11 +85,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/acctype"
-        android:id="@+id/registerbutton"
+        android:layout_below="@id/acc_type"
+        android:id="@+id/register_button"
         android:onClick="registerClicked"
         android:layout_centerHorizontal="true"
-        android:text="Register"/>
+        android:text="@string/activity_main_register_btn"/>
 
 
 </RelativeLayout>

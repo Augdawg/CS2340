@@ -142,7 +142,7 @@ public class WaterQualityReport {
 
     /**
      * Sets virus ppm of report
-     * @param virusPPM value to set virusppm to
+     * @param virusPPM value to set virus ppm to
      */
     public void setVirusPPM(int virusPPM) {
         this.virusPPM = virusPPM;
@@ -158,7 +158,7 @@ public class WaterQualityReport {
 
     /**
      * Sets contaminant ppm of report
-     * @param contaminantPPM value to set contaminantppm to
+     * @param contaminantPPM value to set contaminant ppm to
      */
     public void setContaminantPPM(int contaminantPPM) {
         this.contaminantPPM = contaminantPPM;

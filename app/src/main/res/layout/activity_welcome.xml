@@ -4,65 +4,69 @@
     android:layout_height="match_parent">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/activity_welcome_logout_btn"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignBaseline="@+id/profileButton"
-        android:id="@+id/logoutbutton"
+        android:id="@+id/logout_button"
         android:onClick="logoutPressed"
         />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Edit Profile"
+        android:text="@string/activity_welcome_edit_profile_btn"
         android:id="@+id/profileButton"
         android:onClick="editPressed" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit WSR Report"
+        android:text="@string/activity_welcome_submit_wsr"
         android:layout_below="@+id/profileButton"
         android:onClick="submitPressed"
-        android:id="@+id/submitbtn"/>
+        android:id="@+id/submit_btn"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View WSR Reports"
-        android:layout_below="@+id/submitbtn"
+        android:text="@string/activity_welcome_view_wsr"
+        android:layout_below="@+id/submit_btn"
         android:onClick="viewReportPressed"
-        android:id="@+id/viewreport"
+        android:id="@+id/view_report"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit Quality Report"
-        android:layout_below="@+id/logoutbutton"
+        android:text="@string/activity_welcome_submit_quality_btn"
+        android:layout_below="@+id/logout_button"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:onClick="submitQualityReport"
-        android:id="@+id/submitWQRbtn"/>
+        android:id="@+id/submitWQR_btn"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Quality Reports"
-        android:layout_below="@+id/submitWQRbtn"
+        android:text="@string/view_quality_reports"
+        android:layout_below="@+id/submitWQR_btn"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:onClick="viewQualityReports"
-        android:id="@+id/viewWQRreports"/>
+        android:id="@+id/viewWQR_reports"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quality Graph"
+        android:text="@string/quality_graph"
         android:id="@+id/qualityGraphBtn"
-        android:layout_below="@+id/viewWQRreports"
+        android:layout_below="@+id/viewWQR_reports"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:onClick="qualityGraphClick"/>
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mapfragment"
+        android:id="@+id/map_fragment"
         android:layout_alignBaseline="@+id/qualityGraphBtn"
         android:layout_centerHorizontal="true"
         android:name="com.google.android.gms.maps.MapFragment"/>

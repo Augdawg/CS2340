@@ -11,10 +11,9 @@ public class CurrentUser {
 
     /**
      * CurrentUser private Singleton Constructor
-     * @param user
      */
-    private CurrentUser(GeneralUser user) {
-        this.currentUser = user;
+    private CurrentUser() {
+
     }
 
     /**
@@ -23,7 +22,7 @@ public class CurrentUser {
      */
     public static CurrentUser getInstance() {
         if (instance == null) {
-            instance = new CurrentUser(null);
+            instance = new CurrentUser();
         }
         return instance;
     }

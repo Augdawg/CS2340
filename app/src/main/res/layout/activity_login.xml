@@ -10,7 +10,7 @@
         android:id="@+id/username"
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
-        android:hint="Username"/>
+        android:hint="@string/activity_login_username_hint"/>
 
     <EditText
         android:layout_width="200dp"
@@ -18,33 +18,33 @@
         android:id="@+id/password"
         android:layout_below="@+id/username"
         android:layout_centerHorizontal="true"
-        android:hint="Password"
+        android:hint="@string/activity_login_password_hint"
         android:inputType="textPassword"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginbtn"
+        android:id="@+id/login_btn"
         android:layout_below="@+id/password"
         android:layout_centerHorizontal="true"
         android:onClick="loginPressed"
-        android:text="Login"/>
+        android:text="@string/activity_login_login_btn"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/cancelbtn"
-        android:layout_below="@+id/loginbtn"
+        android:id="@+id/cancel_btn"
+        android:layout_below="@+id/login_btn"
         android:layout_centerHorizontal="true"
         android:onClick="cancelPressed"
-        android:text="Cancel"/>
+        android:text="@string/activity_login_cancel_btn"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/forgotpassbtn"
-        android:layout_below="@+id/cancelbtn"
+        android:id="@+id/forgot_pass_btn"
+        android:layout_below="@+id/cancel_btn"
         android:layout_centerHorizontal="true"
         android:onClick="forgotPressed"
-        android:text="Forgot Password"/>
+        android:text="@string/forgot_password"/>
 
 </RelativeLayout>

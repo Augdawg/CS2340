@@ -25,7 +25,6 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -40,10 +39,6 @@ import java.util.List;
 
 public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private TextView text;
-    private MapView mv;
-    private GoogleMap gm;
-
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -57,15 +52,13 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        //text = (TextView) findViewById(R.id.welcometext);
-        //text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
-        ((MapFragment) getFragmentManager().findFragmentById(R.id.mapfragment)).getMapAsync(this);
+        ((MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment)).getMapAsync(this);
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Worker)) {
-            Button btn = (Button) findViewById(R.id.submitWQRbtn);
+            Button btn = (Button) findViewById(R.id.submitWQR_btn);
             btn.setEnabled(false);
         }
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Manager)) {
-            Button btn = (Button) findViewById(R.id.viewWQRreports);
+            Button btn = (Button) findViewById(R.id.viewWQR_reports);
             btn.setEnabled(false);
         }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -77,20 +70,19 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap map) {
-        gm = map;
         WSRDBHandler db = new WSRDBHandler(getApplicationContext());
         List<WaterSourceReport> wsrReports = db.getAllWSRReports();
         List<WaterQualityReport> wqrReports = db.getAllWQRReports();
         for (WaterSourceReport r : wsrReports) {
             LatLng l = new LatLng(r.getLat(), r.getLng());
-            gm.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+            map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
         }
 
         for (WaterQualityReport r : wqrReports) {
             LatLng l = new LatLng(r.getLat(), r.getLng());
-            gm.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+            map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
         }
-        gm.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker arg0) {
                 return null;
@@ -118,16 +110,6 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
                 return info;
             }
         });
-    }
-
-    /**
-     * Resumes Activity
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //text.setText("Welcome " + CurrentUser.getInstance().getCurrentUser().getUsername() + "!");
-
     }
 
     /**
