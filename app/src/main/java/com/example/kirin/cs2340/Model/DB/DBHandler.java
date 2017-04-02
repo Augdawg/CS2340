@@ -12,11 +12,8 @@ import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.Worker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by Kirin Bettadapur on 3/8/2017.
+ * Created by Kirin on 3/8/2017.
  * Database that holds all accounts
  */
 

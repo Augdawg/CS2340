@@ -13,12 +13,14 @@ import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.OverallWaterCondition;
+import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
 
 import java.util.Date;
 
 import static com.example.kirin.cs2340.R.id.longInput;
+import static com.example.kirin.cs2340.R.id.virus;
 
 /**
  * Created by Kirin on 3/8/2017.
@@ -45,6 +47,7 @@ public class SubmitQualityActivity extends AppCompatActivity {
         conditionInput = (RadioGroup) findViewById(R.id.conditionInput);
         virusPPMInput = (EditText) findViewById(R.id.virusPPM);
         contaminantPPMInput = (EditText) findViewById(R.id.contaminantPPM);
+        ((RadioButton)conditionInput.getChildAt(0)).setChecked(true);
     }
 
     /**
@@ -56,19 +59,31 @@ public class SubmitQualityActivity extends AppCompatActivity {
         double lat = Double.parseDouble(latInput.getText().toString());
         double lng = Double.parseDouble(lngInput.getText().toString());
         String cond = ((RadioButton)findViewById(conditionInput.getCheckedRadioButtonId())).getText().toString();
-        int virusPPM = Integer.parseInt(virusPPMInput.getText().toString());
-        int contaminantPPM = Integer.parseInt(contaminantPPMInput.getText().toString());
-        OverallWaterCondition condition = OverallWaterCondition.valueOf(cond.toUpperCase());
-
+        int virusPPM = -1;
+        int contaminantPPM = -1;
+        try {
+            virusPPM = Integer.parseInt(virusPPMInput.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            contaminantPPM = Integer.parseInt(contaminantPPMInput.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
-        WaterQualityReport wqr = new WaterQualityReport(cu.getName(), lat, lng, condition, virusPPM, contaminantPPM, date);
+        WaterQualityReport wqr = ValidationUtilities.tryCreateWQR(cu.getName(), lat, lng, cond, virusPPM, contaminantPPM, date);
 
-        WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        db.addWQRReport(wqr);
-        Toast.makeText(getApplicationContext(), "Water Quality Report Submitted",
-                Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, WelcomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        if (wqr == null) {
+            Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG).show();
+        } else {
+            WSRDBHandler db = new WSRDBHandler(getApplicationContext());
+            db.addWQRReport(wqr);
+            Toast.makeText(getApplicationContext(), "Water Quality Report Submitted",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 }

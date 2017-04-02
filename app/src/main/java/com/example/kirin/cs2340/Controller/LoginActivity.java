@@ -13,6 +13,7 @@ import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.ForgotPassUser;
 import com.example.kirin.cs2340.Model.GMailSender;
 import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.R;
 import java.util.*;
 /**
@@ -41,15 +42,22 @@ public class LoginActivity extends AppCompatActivity {
      * @param view current view
      */
     public void loginPressed(View view) {
-        DBHandler db = new DBHandler(getApplicationContext());
-        GeneralUser u = db.getUserByUsername(username.getText().toString());
+        String usernameInput = username.getText().toString();
+        String passwordInput = password.getText().toString();
+        boolean valid = ValidationUtilities.loginFieldsAreValid(usernameInput, passwordInput);
+        if (valid) {
+            DBHandler db = new DBHandler(getApplicationContext());
+            GeneralUser u = db.getUserByUsername(username.getText().toString());
 
-        if (u == null || !u.getPassword().equals(password.getText().toString())) {
-            Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
+            if (u == null || !u.getPassword().equals(password.getText().toString())) {
+                Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                startActivity(intent);
+                CurrentUser.getInstance().setCurrentUser(u);
+            }
         } else {
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            startActivity(intent);
-            CurrentUser.getInstance().setCurrentUser(u);
+            Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG).show();
         }
     }
 

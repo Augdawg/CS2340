@@ -2,6 +2,7 @@ package com.example.kirin.cs2340.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
 
@@ -40,6 +42,8 @@ public class WaterSourceReportActivity extends AppCompatActivity {
         longInput = (EditText) findViewById(R.id.longInput);
         typeInput = (RadioGroup) findViewById(R.id.typeInput);
         conditionInput = (RadioGroup) findViewById(R.id.conditionInput);
+        ((RadioButton)typeInput.getChildAt(0)).setChecked(true);
+        ((RadioButton)conditionInput.getChildAt(0)).setChecked(true);
     }
 
     /**
@@ -55,16 +59,20 @@ public class WaterSourceReportActivity extends AppCompatActivity {
         String condition = ((RadioButton)findViewById(conditionInput.getCheckedRadioButtonId())).getText().toString();
         GeneralUser u = CurrentUser.getInstance().getCurrentUser();
 
-        WaterSourceReport wsr = new WaterSourceReport(u.getName(), lat, lng, type, condition, date);
-        WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        db.addWSRReport(wsr);
-        Toast.makeText(getApplicationContext(), "Water Source Report Submitted",
-                Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, WelcomeActivity.class);
+        WaterSourceReport wsr = ValidationUtilities.tryCreateWSR(u.getName(), lat, lng, type, condition, date);
 
+        if (wsr == null) {
+            Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG);
+        } else {
+            WSRDBHandler db = new WSRDBHandler(getApplicationContext());
+            db.addWSRReport(wsr);
+            Toast.makeText(getApplicationContext(), "Water Source Report Submitted",
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, WelcomeActivity.class);
 
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     /**
