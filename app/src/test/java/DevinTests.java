@@ -54,6 +54,6 @@ public class DevinTests {
         assertTrue(test7.getContaminantPPM() == contaminant);
 
         assertTrue(test8.getCondition().equals(OverallWaterCondition.TREATABLE));
-        assertTrue(test9.getCondition().equals(OverallWaterCondition.SAFE.UNSAFE));
+        assertTrue(test9.getCondition().equals(OverallWaterCondition.UNSAFE));
     }
 }

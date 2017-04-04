@@ -17,35 +17,6 @@ public class WaterSourceReport {
     private int reportNumber;
 
     /**
-     * Constructor for WaterSourceReportObject
-     * @param name name of submitter
-     * @param lat latitude of report
-     * @param lng longitude of report
-     * @param type type of water
-     * @param condition condition of water
-     * @param date date of report
-     */
-    public WaterSourceReport(String name, double lat, double lng, String type, String condition, Date date) {
-        this.name = name;
-        this.lat = lat;
-        this.lng = lng;
-        this.type = WaterType.valueOf(type.toUpperCase());
-        switch (condition) {
-            case "Treatable-Muddy":
-                this.condition = WaterCondition.MUDDY;
-                break;
-            case "Treatable-Clear":
-                this.condition = WaterCondition.CLEAR;
-                break;
-            default:
-                this.condition = WaterCondition.valueOf(condition.toUpperCase());
-                break;
-        }
-        this.date = date;
-        reportNumber = Math.abs(this.hashCode());
-    }
-
-    /**
      * Default constructor of report
      */
     public WaterSourceReport() {

@@ -17,27 +17,6 @@ public class WaterQualityReport {
     private int contaminantPPM;
 
     /**
-     * Constructor for a Water Quality Report
-     * @param name name of submitter
-     * @param lat latitude of location
-     * @param lng longitude of location
-     * @param condition condition of water of report submitted
-     * @param virusPPM ppm of viruses in water of report submitted
-     * @param contaminantPPM ppm of contaminants in water of report submitted
-     * @param date date that report is submitted
-     */
-    public WaterQualityReport(String name, double lat, double lng, OverallWaterCondition condition,
-                              int virusPPM, int contaminantPPM, Date date) {
-        this.date = date;
-        this.name = name;
-        this.lat = lat;
-        this.lng = lng;
-        this.condition = condition;
-        this.virusPPM = virusPPM;
-        this.contaminantPPM = contaminantPPM;
-    }
-
-    /**
      * Default Constructor
      */
     public WaterQualityReport() {

@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.GeneralUser;
-import com.example.kirin.cs2340.Model.OverallWaterCondition;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
@@ -20,7 +19,6 @@ import com.example.kirin.cs2340.R;
 import java.util.Date;
 
 import static com.example.kirin.cs2340.R.id.longInput;
-import static com.example.kirin.cs2340.R.id.virus;
 
 /**
  * Created by Kirin on 3/8/2017.

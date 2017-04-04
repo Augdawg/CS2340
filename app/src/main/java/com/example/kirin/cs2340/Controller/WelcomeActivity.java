@@ -60,6 +60,8 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Manager)) {
             Button btn = (Button) findViewById(R.id.viewWQR_reports);
             btn.setEnabled(false);
+            Button b = (Button) findViewById(R.id.qualityGraphBtn);
+            b.setEnabled(false);
         }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }

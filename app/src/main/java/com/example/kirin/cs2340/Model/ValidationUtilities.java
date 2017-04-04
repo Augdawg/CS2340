@@ -93,7 +93,7 @@ public class ValidationUtilities {
                 wsr.setCondition(WaterCondition.CLEAR);
                 break;
             case "Potable":
-                wsr.setCondition(WaterCondition.CLEAR);
+                wsr.setCondition(WaterCondition.POTABLE);
                 break;
             case "Waste":
                 wsr.setCondition(WaterCondition.WASTE);
