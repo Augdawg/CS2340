@@ -8,6 +8,17 @@ import java.util.Date;
  */
 
 public class ValidationUtilities {
+    /**
+     * Checks if validation fields are valid
+     * @param name name of user
+     * @param username username of user
+     * @param password password of user
+     * @param title title of user
+     * @param email email of user
+     * @param home home of user
+     * @param accType Account Type of user
+     * @return Returns a GeneralUser if the fields are valid, null if valid
+     */
     public static GeneralUser registrationFieldsAreValid(String name, String username, String password,
                                                      String title, String email, String home, String accType) {
 
@@ -47,6 +58,16 @@ public class ValidationUtilities {
         return user;
     }
 
+    /**
+     * Attempts to create WSR. Succeeds if fields are valid, fails if not
+     * @param name Name of user who submitted report
+     * @param lat Latitude of report
+     * @param lng Longitude of report
+     * @param type Type of water in report
+     * @param condition Condition of water in report
+     * @param date Date of submission
+     * @return New WSR if fields are valid, null if invalid
+     */
     public static WaterSourceReport tryCreateWSR(String name, double lat, double lng, String type, String condition, Date date) {
         if (name == null || name.trim().equals("")) {
             return null;
@@ -84,6 +105,8 @@ public class ValidationUtilities {
             case "Other":
                 wsr.setType(WaterType.OTHER);
                 break;
+            default:
+                return null;
         }
         switch (condition) {
             case "Treatable-Muddy":
@@ -98,12 +121,25 @@ public class ValidationUtilities {
             case "Waste":
                 wsr.setCondition(WaterCondition.WASTE);
                 break;
+            default:
+                return null;
         }
         wsr.setDate(date);
         wsr.setReportNumber(wsr.hashCode());
         return wsr;
     }
 
+    /**
+     * Attempts to create WQR. Succeeds if fields are valid, fails if not
+     * @param name Name of submitter
+     * @param lat Latitude of report
+     * @param lng Longitude of report
+     * @param condition Condition of water in report
+     * @param virus Virus PPM of water in report
+     * @param contaminant Contaminant PPM of water in report
+     * @param date Date of submission
+     * @return New WQR report if fields valid, null if invalid
+     */
     public static WaterQualityReport tryCreateWQR(String name, double lat, double lng, String condition, int virus, int contaminant, Date date) {
         if (name == null || name.trim().equals("")) {
             return null;
@@ -144,6 +180,14 @@ public class ValidationUtilities {
         return wqr;
     }
 
+    /**
+     * Determines if graph inputs are valid
+     * @param lat Latitude to check data against in graph
+     * @param lng Longitude to check data against in graph
+     * @param year Year to check data against in graph
+     * @param selection What data user wants to display, virus ppm or contaminant ppm
+     * @return True if fields are valid, false otherwise
+     */
     public static boolean graphFieldsAreValid(double lat, double lng, int year, String selection) {
         if (lat > 90 || lat < -90) {
             return false;
@@ -157,6 +201,12 @@ public class ValidationUtilities {
         return true;
     }
 
+    /**
+     * Checks if login fields are valid
+     * @param username username typed to attempt to login
+     * @param password password typed to attempt to login
+     * @return True if username and password are valid, false otherwise
+     */
     public static boolean loginFieldsAreValid(String username, String password) {
         if (username == null || username.trim().equals("")) {
             return false;

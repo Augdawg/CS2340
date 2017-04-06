@@ -160,11 +160,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         startActivity(intent);
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
+    private Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Welcome Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
