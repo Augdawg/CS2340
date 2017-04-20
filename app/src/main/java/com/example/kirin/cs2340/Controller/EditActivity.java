@@ -60,21 +60,24 @@ public class EditActivity extends AppCompatActivity {
      */
     public void savePressed(View v) {
         final GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
         cu.setName(name.getText().toString());
         FirebaseAuth.getInstance().getCurrentUser().updateEmail(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     cu.setEmail(email.getText().toString());
-                    Toast.makeText(getBaseContext(), "Email change successfull", Toast.LENGTH_SHORT).show();
+                    CurrentUser.getInstance().setCurrentUser(cu);
+                    database.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(cu.getEmail());
+                    Toast.makeText(getBaseContext(), "Email change successful", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getBaseContext(), "Email change unsuccesfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Email change unsuccessful", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         cu.setHome(home.getText().toString());
         cu.setTitle(title.getText().toString());
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
+        CurrentUser.getInstance().setCurrentUser((cu));
         database.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(cu);
         //DBHandler db = new DBHandler(getApplicationContext());
         //db.addUser(cu);
