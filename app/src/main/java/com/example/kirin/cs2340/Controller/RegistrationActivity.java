@@ -2,7 +2,10 @@ package com.example.kirin.cs2340.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.view.View;
@@ -14,6 +17,10 @@ import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by Kirin on 2/19/2017.
@@ -28,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText home_address;
     private EditText title;
     private RadioGroup acc_type;
+    private FirebaseAuth mAuth;
 
     /**
      * Creates Activity
@@ -46,6 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
         title = (EditText) findViewById(R.id.title);
         acc_type = (RadioGroup) findViewById(R.id.acc_type);
         ((RadioButton)acc_type.getChildAt(0)).setChecked(true);
+        mAuth = FirebaseAuth.getInstance();
     }
 
     /**
@@ -63,6 +72,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
         GeneralUser user = ValidationUtilities.registrationFieldsAreValid(n, u_name, pass, ti, em, home, acc);
 
+        mAuth.createUserWithEmailAndPassword(em, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getBaseContext(), "firebase user added", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), "failed to add userto firebase", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
         if (user != null) {
             CurrentUser.getInstance().setCurrentUser(user);
             DBHandler db = new DBHandler(getApplicationContext());
