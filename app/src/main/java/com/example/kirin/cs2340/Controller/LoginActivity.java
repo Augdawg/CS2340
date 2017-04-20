@@ -1,5 +1,6 @@
 package com.example.kirin.cs2340.Controller;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,13 +9,28 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.kirin.cs2340.Model.Admin;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.ForgotPassUser;
 import com.example.kirin.cs2340.Model.GMailSender;
 import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.Manager;
+import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
+import com.example.kirin.cs2340.Model.Worker;
 import com.example.kirin.cs2340.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.*;
 /**
  * Created by Kirin on 2/14/2017.
@@ -24,6 +40,8 @@ import java.util.*;
 public class LoginActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
+    private FirebaseAuth mAuth;
+    private DatabaseReference database;
 
     /**
      * creates login activity
@@ -35,6 +53,9 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference().child("users");
     }
 
     /**
@@ -44,21 +65,23 @@ public class LoginActivity extends AppCompatActivity {
     public void loginPressed(View view) {
         String usernameInput = username.getText().toString();
         String passwordInput = password.getText().toString();
+        signIn(usernameInput, passwordInput);
         boolean valid = ValidationUtilities.loginFieldsAreValid(usernameInput, passwordInput);
         if (valid) {
-            DBHandler db = new DBHandler(getApplicationContext());
-            GeneralUser u = db.getUserByUsername(username.getText().toString());
-
-            if (u == null || !u.getPassword().equals(password.getText().toString())) {
-                Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent intent = new Intent(this, WelcomeActivity.class);
-                startActivity(intent);
-                CurrentUser.getInstance().setCurrentUser(u);
-            }
+//            DBHandler db = new DBHandler(getApplicationContext());
+//            GeneralUser u = db.getUserByUsername(username.getText().toString());
+//
+//            if (u == null || !u.getPassword().equals(password.getText().toString())) {
+//                Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_SHORT).show();
+//            } else {
+////                Intent intent = new Intent(this, WelcomeActivity.class);
+////                startActivity(intent);
+////                CurrentUser.getInstance().setCurrentUser(u);
+//            }
         } else {
             Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG).show();
         }
+
     }
 
     /**
@@ -95,4 +118,58 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG).show();
         }
     }
+    private void signIn(String email, String password) {
+        if(email.equals("") || password.equals("")) {
+            Toast.makeText(getBaseContext(), "Email or Password Invalid", Toast.LENGTH_SHORT).show();
+        }
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("Pickup", "signInWithEmail:onComplete:" + task.isSuccessful());
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getBaseContext(), "Authentication succeeded",
+                                    Toast.LENGTH_SHORT).show();
+                            final FirebaseUser u = mAuth.getCurrentUser();
+                            database.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    GeneralUser user = null;
+                                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                                        if (child.getKey().equals(u.getUid())) {
+                                            if (child.child("accountType").getValue().equals("USER")) {
+                                                user = child.getValue(User.class);
+                                            } else if (child.child("accountType").getValue().equals("MANAGER")) {
+                                                user = child.getValue(Manager.class);
+                                            } else if (child.child("accountType").getValue().equals("WORKER")) {
+                                                user = child.getValue(Worker.class);
+                                            } else if (child.child("accountType").getValue().equals("ADMIN")) {
+                                                user = child.getValue(Admin.class);
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    CurrentUser.getInstance().setCurrentUser(user);
+                                    Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
+                                    startActivity(homePage);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        } else {
+                            Log.w("Pickup", "signInWithEmail:failed", task.getException());
+                            Toast.makeText(getBaseContext(), "Authentication failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
 }
+

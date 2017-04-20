@@ -101,8 +101,8 @@ public class WSRDBHandler extends SQLiteOpenHelper {
         values.put(WSR_NAME, report.getName());
         values.put(WSR_LAT, report.getLat());
         values.put(WSR_LNG, report.getLng());
-        values.put(WSR_WATER_TYPE, report.getWaterType());
-        values.put(WSR_WATER_CONDITION, report.getWaterCondition());
+        values.put(WSR_WATER_TYPE, report.getType().toString());
+        values.put(WSR_WATER_CONDITION, report.getCondition().toString());
         values.put(WSR_DATE, report.getDate().toString());
         db.insert(WSR_TABLE, null, values);
         db.close();

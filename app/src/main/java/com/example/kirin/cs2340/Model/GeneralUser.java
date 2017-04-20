@@ -7,6 +7,9 @@ package com.example.kirin.cs2340.Model;
 
 public abstract class GeneralUser {
 
+    public GeneralUser() {
+
+    }
     /**
      * Gets name of user
      * @return name of user

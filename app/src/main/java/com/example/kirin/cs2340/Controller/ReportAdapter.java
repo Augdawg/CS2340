@@ -76,9 +76,9 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         tv = (TextView) viewHolder.v.findViewById(R.id.location);
         tv.setText("(" + wsr.getLat() + ", " + wsr.getLng() + ")");
         tv = (TextView) viewHolder.v.findViewById(R.id.condition);
-        tv.setText(wsr.getWaterCondition());
+        tv.setText(wsr.getCondition().toString());
         tv = (TextView) viewHolder.v.findViewById(R.id.type);
-        tv.setText(wsr.getWaterType());
+        tv.setText(wsr.getType().toString());
         tv = (TextView) viewHolder.v.findViewById(R.id.date);
         tv.setText(wsr.getDate().toString());
     }
