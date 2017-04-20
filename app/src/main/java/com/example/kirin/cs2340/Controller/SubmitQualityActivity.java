@@ -15,6 +15,8 @@ import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
@@ -31,6 +33,7 @@ public class SubmitQualityActivity extends AppCompatActivity {
     private RadioGroup conditionInput;
     private EditText virusPPMInput;
     private EditText contaminantPPMInput;
+    private DatabaseReference database;
 
     /**
      * Creates the Water Quality Report submission activity
@@ -46,6 +49,7 @@ public class SubmitQualityActivity extends AppCompatActivity {
         virusPPMInput = (EditText) findViewById(R.id.virusPPM);
         contaminantPPMInput = (EditText) findViewById(R.id.contaminantPPM);
         ((RadioButton)conditionInput.getChildAt(0)).setChecked(true);
+        database = FirebaseDatabase.getInstance().getReference().child("Reports").child("QR");
     }
 
     /**
@@ -75,6 +79,7 @@ public class SubmitQualityActivity extends AppCompatActivity {
         if (wqr == null) {
             Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG).show();
         } else {
+            database.push().setValue(wqr);
             WSRDBHandler db = new WSRDBHandler(getApplicationContext());
             db.addWQRReport(wqr);
             Toast.makeText(getApplicationContext(), "Water Quality Report Submitted",
