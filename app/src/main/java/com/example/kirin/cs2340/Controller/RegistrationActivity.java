@@ -81,7 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful() && user != null) {
                             FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
-                            Toast.makeText(getBaseContext(), "firebase user added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "New user registered", Toast.LENGTH_SHORT).show();
                             database.child(u.getUid()).setValue(user);
                             CurrentUser.getInstance().setCurrentUser(user);
                             Intent intent = new Intent(getBaseContext(), WelcomeActivity.class);

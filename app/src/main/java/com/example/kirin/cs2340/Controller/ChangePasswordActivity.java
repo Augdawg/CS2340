@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Kirin on 3/7/2017.
@@ -49,21 +50,21 @@ public class ChangePasswordActivity extends AppCompatActivity {
             GeneralUser g = db.getUserByUsername(currentUser);
             g.setPassword(newPass.getText().toString());
             db.addUser(g);
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             user.updatePassword(newPass.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_LONG).show();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid())
+                                .child("password").setValue(newPass.getText().toString());
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
                     }
                 }
             });
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_LONG).show();
-            CurrentUser.getInstance().setCurrentUser(g);
-            startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
         }

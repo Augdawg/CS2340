@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private FirebaseAuth mAuth;
     private DatabaseReference database;
+    private final List<GeneralUser> users = new ArrayList<>();
 
     /**
      * creates login activity
@@ -56,6 +57,27 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference().child("users");
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        if (child.child("accountType").getValue().equals("USER")) {
+                            users.add(child.getValue(User.class));
+                        } else if (child.child("accountType").getValue().equals("MANAGER")) {
+                            users.add(child.getValue(Manager.class));
+                        } else if (child.child("accountType").getValue().equals("WORKER")) {
+                            users.add(child.getValue(Worker.class));
+                        } else if (child.child("accountType").getValue().equals("ADMIN")) {
+                            users.add(child.getValue(Admin.class));
+                        }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     /**
@@ -97,26 +119,53 @@ public class LoginActivity extends AppCompatActivity {
      * @param v current view
      */
     public void forgotPressed(View v) {
-        DBHandler db = new DBHandler(getApplicationContext());
-        GeneralUser userNeeded = db.getUserByUsername(username.getText().toString());
-        if (username.getText() != null && userNeeded != null) {
+        if (username.getText() == null) {
+            return;
+        }
+        GeneralUser user = null;
+        for (GeneralUser u: users) {
+            if (u.getEmail().equals(username.getText().toString())) {
+                user = u;
+                break;
+            }
+        }
+        if (user != null) {
             try {
                 String key;
                 Random r = new Random(System.currentTimeMillis());
                 key = Integer.toString(10000 + r.nextInt(20000));
-                ForgotPassUser.getInstance().addPasswordCode(userNeeded.getUsername(), key);
+                ForgotPassUser.getInstance().addPasswordCode(user.getUsername(), key);
                 GMailSender sender = new GMailSender();
-                sender.sendMail("Type in this code: " + key, sender.getUser(), userNeeded.getEmail());
+                sender.sendMail("Type in this code: " + key, sender.getUser(), user.getEmail());
                 Intent intent = new Intent(this, ForgotPasswordActivity.class);
-                ForgotPassUser.getInstance().setUsername(userNeeded.getUsername());
+                ForgotPassUser.getInstance().setUsername(user.getUsername());
                 startActivity(intent);
             } catch (Exception e) {
                 Log.e("SendMail", e.getMessage(), e);
-
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
         }
+        //DBHandler db = new DBHandler(getApplicationContext());
+        //GeneralUser userNeeded = db.getUserByUsername(username.getText().toString());
+
+//        if (username.getText() != null && userNeeded != null) {
+//            try {
+//                String key;
+//                Random r = new Random(System.currentTimeMillis());
+//                key = Integer.toString(10000 + r.nextInt(20000));
+//                ForgotPassUser.getInstance().addPasswordCode(userNeeded.getUsername(), key);
+//                GMailSender sender = new GMailSender();
+//                sender.sendMail("Type in this code: " + key, sender.getUser(), userNeeded.getEmail());
+//                Intent intent = new Intent(this, ForgotPasswordActivity.class);
+//                ForgotPassUser.getInstance().setUsername(userNeeded.getUsername());
+//                startActivity(intent);
+//            } catch (Exception e) {
+//                Log.e("SendMail", e.getMessage(), e);
+//            }
+//        } else {
+//            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG).show();
+//        }
     }
     private void signIn(String email, String password) {
         if(email.equals("") || password.equals("")) {
