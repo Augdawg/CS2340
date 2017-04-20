@@ -36,7 +36,7 @@ public class User extends GeneralUser {
      * Default constructor of user, creates empty fields
      */
     public User() {
-        this("","","","","","");
+
     }
 
     /**

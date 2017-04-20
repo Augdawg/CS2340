@@ -46,6 +46,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private DatabaseReference database;
 
     /**
      * Creates Welcoming Activity
@@ -66,6 +67,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
             b.setEnabled(false);
         }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        database = FirebaseDatabase.getInstance().getReference().child("Reports");
     }
 
     /**

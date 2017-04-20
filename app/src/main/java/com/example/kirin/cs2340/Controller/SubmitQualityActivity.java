@@ -75,7 +75,6 @@ public class SubmitQualityActivity extends AppCompatActivity {
         }
         GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
         WaterQualityReport wqr = ValidationUtilities.tryCreateWQR(cu.getName(), lat, lng, cond, virusPPM, contaminantPPM, date);
-
         if (wqr == null) {
             Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG).show();
         } else {

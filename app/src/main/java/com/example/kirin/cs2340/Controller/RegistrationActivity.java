@@ -83,17 +83,20 @@ public class RegistrationActivity extends AppCompatActivity {
                             FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
                             Toast.makeText(getBaseContext(), "firebase user added", Toast.LENGTH_SHORT).show();
                             database.child(u.getUid()).setValue(user);
+                            CurrentUser.getInstance().setCurrentUser(user);
+                            Intent intent = new Intent(getBaseContext(), WelcomeActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getBaseContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
         if (user != null) {
-            CurrentUser.getInstance().setCurrentUser(user);
+//            CurrentUser.getInstance().setCurrentUser(user);
             DBHandler db = new DBHandler(getApplicationContext());
             db.addUser(user);
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, WelcomeActivity.class);
+//            startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Invalid fields", Toast.LENGTH_LONG).show();
         }
