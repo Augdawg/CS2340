@@ -55,19 +55,26 @@ public class WaterSourceReport {
         return lng;
     }
 
+    public WaterType getWaterType() {
+        return type;
+    }
+
     /**
      * Gets water type of report
      * @return water type of report
      */
-    public String getWaterType() {
+    public String getType() {
         return this.type.toString();
     }
 
+    public WaterCondition getCondition() {
+        return condition;
+    }
     /**
      * Gets condition of water
      * @return condition of water
      */
-    public String getWaterCondition() {
+    public String getWaterConditionString() {
         return this.condition.toString();
     }
 
