@@ -21,6 +21,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Kirin on 2/19/2017.
@@ -36,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText title;
     private RadioGroup acc_type;
     private FirebaseAuth mAuth;
+    private DatabaseReference database;
 
     /**
      * Creates Activity
@@ -45,7 +49,6 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
         name = (EditText) findViewById(R.id.name);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -55,6 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
         acc_type = (RadioGroup) findViewById(R.id.acc_type);
         ((RadioButton)acc_type.getChildAt(0)).setChecked(true);
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference().child("users");
     }
 
     /**
@@ -69,17 +73,18 @@ public class RegistrationActivity extends AppCompatActivity {
         String home = home_address.getText().toString();
         String ti = title.getText().toString();
         String acc = ((RadioButton)findViewById(acc_type.getCheckedRadioButtonId())).getText().toString();
-
-        GeneralUser user = ValidationUtilities.registrationFieldsAreValid(n, u_name, pass, ti, em, home, acc);
-
+        final GeneralUser user = ValidationUtilities.registrationFieldsAreValid(n, u_name, pass, ti, em, home, acc);
+        // register user to firebase and add their user values to the database
         mAuth.createUserWithEmailAndPassword(em, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                        if (task.isSuccessful() && user != null) {
+                            FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
                             Toast.makeText(getBaseContext(), "firebase user added", Toast.LENGTH_SHORT).show();
+                            database.child(u.getUid()).setValue(user);
                         } else {
-                            Toast.makeText(getBaseContext(), "failed to add userto firebase", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Registration Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
