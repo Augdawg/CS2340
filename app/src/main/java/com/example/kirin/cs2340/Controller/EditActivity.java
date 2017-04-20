@@ -2,6 +2,7 @@ package com.example.kirin.cs2340.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +13,15 @@ import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.R;
 import com.example.kirin.cs2340.Model.GeneralUser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Kirin on 2/19/2017.
@@ -49,13 +59,28 @@ public class EditActivity extends AppCompatActivity {
      * @param v current view
      */
     public void savePressed(View v) {
-        GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        final GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
         cu.setName(name.getText().toString());
-        cu.setEmail(email.getText().toString());
+        FirebaseAuth.getInstance().getCurrentUser().updateEmail(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    cu.setEmail(email.getText().toString());
+                    CurrentUser.getInstance().setCurrentUser(cu);
+                    database.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("email").setValue(cu.getEmail());
+                    Toast.makeText(getBaseContext(), "Email change successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "Email change unsuccessful", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         cu.setHome(home.getText().toString());
         cu.setTitle(title.getText().toString());
-        DBHandler db = new DBHandler(getApplicationContext());
-        db.addUser(cu);
+        CurrentUser.getInstance().setCurrentUser((cu));
+        database.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(cu);
+        //DBHandler db = new DBHandler(getApplicationContext());
+        //db.addUser(cu);
         Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
