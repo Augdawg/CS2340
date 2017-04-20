@@ -29,9 +29,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,12 +45,16 @@ import java.util.List;
 
 public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private final List<WaterQualityReport> wqrReports = new ArrayList<>();
+    private final List<WaterSourceReport> wsrReports = new ArrayList<>();
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
     private DatabaseReference database;
+    private GoogleMap map;
 
     /**
      * Creates Welcoming Activity
@@ -67,7 +75,64 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
             b.setEnabled(false);
         }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        database = FirebaseDatabase.getInstance().getReference().child("Reports");
+        database = FirebaseDatabase.getInstance().getReference().child("Reports").child("QR");
+        database.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                WaterQualityReport r = dataSnapshot.getValue(WaterQualityReport.class);
+                LatLng l = new LatLng(r.getLat(), r.getLng());
+                map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        database = database.getParent().child("WSR");
+        database.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                WaterSourceReport r = dataSnapshot.getValue(WaterSourceReport.class);
+                LatLng l = new LatLng(r.getLat(), r.getLng());
+                map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
@@ -76,18 +141,19 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap map) {
-        WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        List<WaterSourceReport> wsrReports = db.getAllWSRReports();
-        List<WaterQualityReport> wqrReports = db.getAllWQRReports();
-        for (WaterSourceReport r : wsrReports) {
-            LatLng l = new LatLng(r.getLat(), r.getLng());
-            map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
-        }
-
-        for (WaterQualityReport r : wqrReports) {
-            LatLng l = new LatLng(r.getLat(), r.getLng());
-            map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
-        }
+        this.map = map;
+        //WSRDBHandler db = new WSRDBHandler(getApplicationContext());
+        //List<WaterSourceReport> wsrReports = db.getAllWSRReports();
+       // List<WaterQualityReport> wqrReports = db.getAllWQRReports();
+//        for (WaterSourceReport r : wsrReports) {
+//            LatLng l = new LatLng(r.getLat(), r.getLng());
+//            map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+//        }
+//
+//        for (WaterQualityReport r : wqrReports) {
+//            LatLng l = new LatLng(r.getLat(), r.getLng());
+//            map.addMarker(new MarkerOptions().position(l).title(r.getName()).snippet(r.toString()));
+//        }
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker arg0) {

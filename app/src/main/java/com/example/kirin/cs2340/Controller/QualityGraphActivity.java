@@ -1,6 +1,7 @@
 package com.example.kirin.cs2340.Controller;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -12,10 +13,16 @@ import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +39,10 @@ public class QualityGraphActivity extends AppCompatActivity {
     private RadioGroup dataType;
     private EditText latitude;
     private EditText longitude;
+    private DatabaseReference database;
+    private final List<WaterQualityReport> wqr = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +64,33 @@ public class QualityGraphActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Month Num");
         graph.getGridLabelRenderer().setVerticalAxisTitle("# Reports");
         graph.setScaleX(1);
+        database = FirebaseDatabase.getInstance().getReference().child("Reports").child("QR");
+        database.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                wqr.add(dataSnapshot.getValue(WaterQualityReport.class));
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**
@@ -63,8 +100,8 @@ public class QualityGraphActivity extends AppCompatActivity {
     public void updateGraph(View v) {
         graph.removeAllSeries();
         double halfMileCoordinate = 0.00725;
-        WSRDBHandler db = new WSRDBHandler(getApplicationContext());
-        List<WaterQualityReport> wqr = db.getAllWQRReports();
+        //WSRDBHandler db = new WSRDBHandler(getApplicationContext());
+        //List<WaterQualityReport> wqr = db.getAllWQRReports();
         double lat = 91;
         double lng = 181;
         int year = -1;
