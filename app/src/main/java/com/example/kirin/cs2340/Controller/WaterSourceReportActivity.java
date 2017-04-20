@@ -15,6 +15,8 @@ import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
@@ -29,6 +31,7 @@ public class WaterSourceReportActivity extends AppCompatActivity {
     private EditText longInput;
     private RadioGroup typeInput;
     private RadioGroup conditionInput;
+    private DatabaseReference database;
     /**
      * Creates Water Source Report submitting activity
      * @param savedInstanceState bundle data transfer
@@ -43,6 +46,7 @@ public class WaterSourceReportActivity extends AppCompatActivity {
         conditionInput = (RadioGroup) findViewById(R.id.conditionInput);
         ((RadioButton)typeInput.getChildAt(0)).setChecked(true);
         ((RadioButton)conditionInput.getChildAt(0)).setChecked(true);
+        database = FirebaseDatabase.getInstance().getReference().child("Reports").child("WSR");
     }
 
     /**
@@ -63,6 +67,7 @@ public class WaterSourceReportActivity extends AppCompatActivity {
         if (wsr == null) {
             Toast.makeText(getApplicationContext(), "Invalid Fields", Toast.LENGTH_LONG);
         } else {
+            database.push().setValue(wsr);
             WSRDBHandler db = new WSRDBHandler(getApplicationContext());
             db.addWSRReport(wsr);
             Toast.makeText(getApplicationContext(), "Water Source Report Submitted",
