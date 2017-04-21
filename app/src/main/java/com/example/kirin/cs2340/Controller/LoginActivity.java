@@ -191,22 +191,10 @@ public class LoginActivity extends AppCompatActivity {
                         // signed in user can be handled in the listener.
                         final FirebaseUser u = mAuth.getCurrentUser();
                         if (task.isSuccessful()) {
-                            database.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
                                     GeneralUser user = null;
-                                    for (DataSnapshot child: dataSnapshot.getChildren()) {
-                                        if (child.getKey().equals(u.getUid())) {
-                                            if (child.child("accountType").getValue().equals("USER")) {
-                                                user = child.getValue(User.class);
-                                            } else if (child.child("accountType").getValue().equals("MANAGER")) {
-                                                user = child.getValue(Manager.class);
-                                            } else if (child.child("accountType").getValue().equals("WORKER")) {
-                                                user = child.getValue(Worker.class);
-                                            } else if (child.child("accountType").getValue().equals("ADMIN")) {
-                                                user = child.getValue(Admin.class);
-                                            }
-                                            break;
+                                    for(GeneralUser gu: users) {
+                                        if(gu.getEmail().equals(email)) {
+                                            user = gu;
                                         }
                                     }
                                     if (user != null && user.getBanned()) {
@@ -217,7 +205,6 @@ public class LoginActivity extends AppCompatActivity {
                                     if (user != null && user.getBlocked()) {
                                         Toast.makeText(getBaseContext(), "Account is blocked",
                                                 Toast.LENGTH_SHORT).show();
-                                        mAuth.getInstance().signOut();
                                         return;
                                     } else {
                                         Toast.makeText(getBaseContext(), "Login succeeded",
@@ -229,14 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
                                         startActivity(homePage);
                                     }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        } else {
+                                } else {
                             String status = "Invalid Email";
                             Log.w("Pickup", "signInWithEmail:failed", task.getException());
                             GeneralUser aUser = null;
@@ -249,9 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if(aUser != null && attemptCntr == 3 && !(aUser instanceof Admin)) {
                                 aUser.setBlocked(true);
-                                mAuth.signInWithEmailAndPassword(aUser.getEmail(), aUser.getPassword());
-                                database.child(mAuth.getInstance().getCurrentUser().getUid()).setValue(aUser);
-                                mAuth.getInstance().signOut();
+                                database.child(aUser.getUID()).setValue(aUser);
                                 Toast.makeText(getBaseContext(), "Too many login attempts\nAccount blocked",
                                         Toast.LENGTH_SHORT).show();
                                 return;

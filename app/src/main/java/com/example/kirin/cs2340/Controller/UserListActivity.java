@@ -55,8 +55,9 @@ public class UserListActivity extends AppCompatActivity {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(CurrentUser.getInstance().getCurrentUser().getEmail())) {
+                    if (!child.child("email").equals(CurrentUser.getInstance().getCurrentUser().getEmail())) {
                         if (child.child("accountType").getValue().equals("USER")) {
                             adapter.add(child.getValue(User.class));
                         } else if (child.child("accountType").getValue().equals("MANAGER")) {
@@ -120,7 +121,7 @@ public class UserListActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-                
+
                 builder.setNegativeButton("Delete",
                         new DialogInterface.OnClickListener()
                         {
