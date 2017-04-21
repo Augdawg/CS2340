@@ -7,6 +7,8 @@ package com.example.kirin.cs2340.Model;
 
 public abstract class GeneralUser {
 
+    private boolean blocked;
+
     public GeneralUser() {
 
     }
@@ -94,4 +96,13 @@ public abstract class GeneralUser {
      */
     public abstract int getId();
 
+    public abstract void setID(int id);
+
+    public boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
 }

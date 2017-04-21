@@ -5,7 +5,7 @@ package com.example.kirin.cs2340.Model;
  * Represents Admin User object
  */
 public class Admin extends GeneralUser {
-    private final int id;
+    private int id;
     private String name;
     private String username;
     private String password;
@@ -145,5 +145,10 @@ public class Admin extends GeneralUser {
     public int getId() {
         return this.id;
     }
+
+    public void setID(int id) {
+        this.id = id;
+    }
+
 }
 

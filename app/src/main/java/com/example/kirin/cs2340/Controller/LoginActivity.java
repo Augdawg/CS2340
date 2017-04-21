@@ -44,9 +44,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private FirebaseAuth mAuth;
     private final DatabaseReference database=  FirebaseDatabase.getInstance().getReference().child("users");
-    ;
+    private String prevAttemp;
+    private int attemptCntr = 0;
     private final List<GeneralUser> users = new ArrayList<>();
-
     /**
      * creates login activity
      * @param savedInstanceState data passed into activity
@@ -169,7 +169,12 @@ public class LoginActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG).show();
 //        }
     }
-    private void signIn(String email, String password) {
+    private void signIn(final String email, String password) {
+        attemptCntr++;
+        if (prevAttemp == null || !prevAttemp.equals(email)) {
+            prevAttemp = email;
+            attemptCntr = 1;
+        }
         if(email.equals("") || password.equals("")) {
             Toast.makeText(getBaseContext(), "Email or Password Invalid", Toast.LENGTH_SHORT).show();
         }
@@ -177,18 +182,15 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        ActivityLog log = new ActivityLog();
-                        log.setId1(CurrentUser.getInstance().getCurrentUser().getId());
+                        final ActivityLog log = new ActivityLog();
+                        log.setId1(email.hashCode());
                         log.setType(LogType.LOGIN);
                         Log.d("Pickup", "signInWithEmail:onComplete:" + task.isSuccessful());
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
+                        final FirebaseUser u = mAuth.getCurrentUser();
                         if (task.isSuccessful()) {
-                            Toast.makeText(getBaseContext(), "Authentication succeeded",
-                                    Toast.LENGTH_SHORT).show();
-                            log.setStatus("Success");
-                            final FirebaseUser u = mAuth.getCurrentUser();
                             database.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -207,10 +209,21 @@ public class LoginActivity extends AppCompatActivity {
                                             break;
                                         }
                                     }
-                                    CurrentUser.getInstance().setCurrentUser(user);
-                                    database.getRoot().child("Security Log").push().setValue(log);
-                                    Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
-                                    startActivity(homePage);
+                                    if (user != null && user.getBlocked()) {
+                                        Toast.makeText(getBaseContext(), "Account is blocked",
+                                                Toast.LENGTH_SHORT).show();
+                                        mAuth.getInstance().signOut();
+                                        return;
+                                    } else {
+                                        Toast.makeText(getBaseContext(), "Login succeeded",
+                                                Toast.LENGTH_SHORT).show();
+                                        log.setStatus("Success");
+                                        CurrentUser.getInstance().setCurrentUser(user);
+                                        log.setId1(user.getId());
+                                        database.getRoot().child("Security Log").push().setValue(log);
+                                        Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
+                                        startActivity(homePage);
+                                    }
                                 }
 
                                 @Override
@@ -219,16 +232,42 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
+                            String status = "Invalid Email";
                             Log.w("Pickup", "signInWithEmail:failed", task.getException());
-                            log.setStatus("Incorrect Password");
-                            Toast.makeText(getBaseContext(), "Authentication failed",
-                                    Toast.LENGTH_SHORT).show();
-                            database.getRoot().child("Security Log").push().setValue(log);
+                            GeneralUser aUser = null;
+                            for (GeneralUser temp: users) {
+                                if (temp.getEmail().equals(email)) {
+                                    status = "Incorrect Password";
+                                    log.setId1(temp.getId());
+                                    aUser = temp;
+                                }
+                            }
+                            if(aUser != null && attemptCntr == 3 && !(aUser instanceof Admin)) {
+                                aUser.setBlocked(true);
+                                mAuth.signInWithEmailAndPassword(aUser.getEmail(), aUser.getPassword());
+                                database.child(mAuth.getInstance().getCurrentUser().getUid()).setValue(aUser);
+                                mAuth.getInstance().signOut();
+                                Toast.makeText(getBaseContext(), "Too many login attempts\nAccount blocked",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (aUser != null && aUser.getBlocked()) {
+                                Toast.makeText(getBaseContext(), "Account is blocked",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            log.setStatus(status);
+                            database.getRoot().child("Security Log").push().setValue(log).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getBaseContext(), "Login failed",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            });
                         }
-
                     }
                 });
-
     }
+
 }
 
