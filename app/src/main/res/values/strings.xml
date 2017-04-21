@@ -75,4 +75,5 @@
     <string name="treatable_muddy">Treatable-Muddy</string>
     <string name="treatable_clear">Treatable-Clear</string>
     <string name="potable">Potable</string>
+    <string name="title_activity_admin">AdminActivity</string>
 </resources>
