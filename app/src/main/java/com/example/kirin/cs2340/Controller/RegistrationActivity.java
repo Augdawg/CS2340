@@ -83,6 +83,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
                             Toast.makeText(getBaseContext(), "New user registered", Toast.LENGTH_SHORT).show();
                             user.setBlocked(false);
+                            user.setBanned(false);
+                            user.setUID(u.getUid());
                             database.child(u.getUid()).setValue(user);
                             CurrentUser.getInstance().setCurrentUser(user);
                             Intent intent = new Intent(getBaseContext(), WelcomeActivity.class);

@@ -209,6 +209,11 @@ public class LoginActivity extends AppCompatActivity {
                                             break;
                                         }
                                     }
+                                    if (user != null && user.getBanned()) {
+                                        Toast.makeText(getBaseContext(), "Account is banned",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                     if (user != null && user.getBlocked()) {
                                         Toast.makeText(getBaseContext(), "Account is blocked",
                                                 Toast.LENGTH_SHORT).show();
@@ -250,7 +255,11 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(getBaseContext(), "Too many login attempts\nAccount blocked",
                                         Toast.LENGTH_SHORT).show();
                                 return;
-                            } else if (aUser != null && aUser.getBlocked()) {
+                            } else if (aUser != null && aUser.getBanned()) {
+                                Toast.makeText(getBaseContext(), "Account is banned",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }else if (aUser != null && aUser.getBlocked()) {
                                 Toast.makeText(getBaseContext(), "Account is blocked",
                                         Toast.LENGTH_SHORT).show();
                                 return;

@@ -9,9 +9,22 @@ public abstract class GeneralUser {
 
     private boolean blocked;
 
+    private boolean banned;
+
+    private String UID;
+
     public GeneralUser() {
 
     }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
+
     /**
      * Gets name of user
      * @return name of user
@@ -104,5 +117,12 @@ public abstract class GeneralUser {
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public boolean getBanned() {
+        return banned;
+    }
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 }
