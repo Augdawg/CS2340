@@ -43,6 +43,7 @@ public class ViewSourceActivity extends AppCompatActivity {
         //WSRDBHandler db = new WSRDBHandler(getApplicationContext());
         final List<WaterSourceReport> reports = new ArrayList<>();
         final ReportAdapter adapter = new ReportAdapter(reports);
+        adapter.setContext(this);
         //reports.addAll(db.getAllWSRReports());
         database = FirebaseDatabase.getInstance().getReference().child("Reports").child("WSR");
         database.addChildEventListener(new ChildEventListener() {

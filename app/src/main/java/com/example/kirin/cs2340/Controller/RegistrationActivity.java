@@ -82,6 +82,9 @@ public class RegistrationActivity extends AppCompatActivity {
                         if (task.isSuccessful() && user != null) {
                             FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
                             Toast.makeText(getBaseContext(), "New user registered", Toast.LENGTH_SHORT).show();
+                            user.setBlocked(false);
+                            user.setBanned(false);
+                            user.setUID(u.getUid());
                             database.child(u.getUid()).setValue(user);
                             CurrentUser.getInstance().setCurrentUser(user);
                             Intent intent = new Intent(getBaseContext(), WelcomeActivity.class);
@@ -93,8 +96,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 });
         if (user != null) {
 //            CurrentUser.getInstance().setCurrentUser(user);
-            DBHandler db = new DBHandler(getApplicationContext());
-            db.addUser(user);
+            //DBHandler db = new DBHandler(getApplicationContext());
+            //db.addUser(user);
 //            Intent intent = new Intent(this, WelcomeActivity.class);
 //            startActivity(intent);
         } else {

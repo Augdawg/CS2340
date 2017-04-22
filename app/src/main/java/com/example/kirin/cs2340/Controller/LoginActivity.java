@@ -9,12 +9,14 @@ import android.widget.EditText;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.kirin.cs2340.Model.ActivityLog;
 import com.example.kirin.cs2340.Model.Admin;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.DBHandler;
 import com.example.kirin.cs2340.Model.ForgotPassUser;
 import com.example.kirin.cs2340.Model.GMailSender;
 import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.LogType;
 import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.User;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
@@ -41,9 +43,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private FirebaseAuth mAuth;
-    private DatabaseReference database;
+    private final DatabaseReference database=  FirebaseDatabase.getInstance().getReference().child("users");
+    private String prevAttemp;
+    private int attemptCntr = 0;
     private final List<GeneralUser> users = new ArrayList<>();
-
     /**
      * creates login activity
      * @param savedInstanceState data passed into activity
@@ -56,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
 
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference().child("users");
         final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("users");
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -167,7 +169,12 @@ public class LoginActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), "Invalid Username", Toast.LENGTH_LONG).show();
 //        }
     }
-    private void signIn(String email, String password) {
+    private void signIn(final String email, String password) {
+        attemptCntr++;
+        if (prevAttemp == null || !prevAttemp.equals(email)) {
+            prevAttemp = email;
+            attemptCntr = 1;
+        }
         if(email.equals("") || password.equals("")) {
             Toast.makeText(getBaseContext(), "Email or Password Invalid", Toast.LENGTH_SHORT).show();
         }
@@ -175,50 +182,79 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        final ActivityLog log = new ActivityLog();
+                        log.setId1(email.hashCode());
+                        log.setType(LogType.LOGIN);
                         Log.d("Pickup", "signInWithEmail:onComplete:" + task.isSuccessful());
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
+                        final FirebaseUser u = mAuth.getCurrentUser();
                         if (task.isSuccessful()) {
-                            Toast.makeText(getBaseContext(), "Authentication succeeded",
-                                    Toast.LENGTH_SHORT).show();
-                            final FirebaseUser u = mAuth.getCurrentUser();
-                            database.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
                                     GeneralUser user = null;
-                                    for (DataSnapshot child: dataSnapshot.getChildren()) {
-                                        if (child.getKey().equals(u.getUid())) {
-                                            if (child.child("accountType").getValue().equals("USER")) {
-                                                user = child.getValue(User.class);
-                                            } else if (child.child("accountType").getValue().equals("MANAGER")) {
-                                                user = child.getValue(Manager.class);
-                                            } else if (child.child("accountType").getValue().equals("WORKER")) {
-                                                user = child.getValue(Worker.class);
-                                            } else if (child.child("accountType").getValue().equals("ADMIN")) {
-                                                user = child.getValue(Admin.class);
-                                            }
-                                            break;
+                                    for(GeneralUser gu: users) {
+                                        if(gu.getEmail().equals(email)) {
+                                            user = gu;
                                         }
                                     }
-                                    CurrentUser.getInstance().setCurrentUser(user);
-                                    Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
-                                    startActivity(homePage);
+                                    if (user != null && user.getBanned()) {
+                                        Toast.makeText(getBaseContext(), "Account is banned",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    if (user != null && user.getBlocked()) {
+                                        Toast.makeText(getBaseContext(), "Account is blocked",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else {
+                                        Toast.makeText(getBaseContext(), "Login succeeded",
+                                                Toast.LENGTH_SHORT).show();
+                                        log.setStatus("Success");
+                                        CurrentUser.getInstance().setCurrentUser(user);
+                                        log.setId1(user.getId());
+                                        database.getRoot().child("Security Log").push().setValue(log);
+                                        Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
+                                        startActivity(homePage);
+                                    }
+                                } else {
+                            String status = "Invalid Email";
+                            Log.w("Pickup", "signInWithEmail:failed", task.getException());
+                            GeneralUser aUser = null;
+                            for (GeneralUser temp: users) {
+                                if (temp.getEmail().equals(email)) {
+                                    status = "Incorrect Password";
+                                    log.setId1(temp.getId());
+                                    aUser = temp;
                                 }
-
+                            }
+                            if(aUser != null && attemptCntr == 4 && !(aUser instanceof Admin)) {
+                                aUser.setBlocked(true);
+                                database.child(aUser.getUID()).setValue(aUser);
+                                Toast.makeText(getBaseContext(), "Too many login attempts\nAccount blocked",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (aUser != null && aUser.getBanned()) {
+                                Toast.makeText(getBaseContext(), "Account is banned",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }else if (aUser != null && aUser.getBlocked()) {
+                                Toast.makeText(getBaseContext(), "Account is blocked",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            log.setStatus(status);
+                            database.getRoot().child("Security Log").push().setValue(log).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getBaseContext(), "Login failed",
+                                            Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
                             });
-                        } else {
-                            Log.w("Pickup", "signInWithEmail:failed", task.getException());
-                            Toast.makeText(getBaseContext(), "Authentication failed",
-                                    Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
+
 }
 

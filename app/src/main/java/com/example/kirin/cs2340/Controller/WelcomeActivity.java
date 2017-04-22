@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kirin.cs2340.Model.Admin;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.Manager;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -66,13 +68,20 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
         ((MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment)).getMapAsync(this);
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Worker)) {
             Button btn = (Button) findViewById(R.id.submitWQR_btn);
-            btn.setEnabled(false);
+            //btn.setEnabled(false);
+            btn.setVisibility(View.INVISIBLE);
         }
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Manager)) {
             Button btn = (Button) findViewById(R.id.viewWQR_reports);
-            btn.setEnabled(false);
+            //btn.setEnabled(false);
+            btn.setVisibility(View.INVISIBLE);
             Button b = (Button) findViewById(R.id.qualityGraphBtn);
-            b.setEnabled(false);
+            //b.setEnabled(false);
+            b.setVisibility(View.INVISIBLE);
+        }
+        if (!(CurrentUser.getInstance().getCurrentUser() instanceof Admin)) {
+            Button btn = (Button) findViewById(R.id.security);
+            btn.setVisibility(View.INVISIBLE);
         }
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         database = FirebaseDatabase.getInstance().getReference().child("Reports").child("QR");
@@ -189,6 +198,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
      * @param v current view
      */
     public void logoutPressed(View v) {
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -227,6 +237,11 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
      */
     public void viewQualityReports(View v) {
         Intent intent = new Intent(this, ViewQualityActivity.class);
+        startActivity(intent);
+    }
+
+    public void adminClick(View v) {
+        Intent intent = new Intent(this, AdminActivity.class);
         startActivity(intent);
     }
 
