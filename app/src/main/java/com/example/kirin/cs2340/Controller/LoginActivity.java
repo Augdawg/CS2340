@@ -227,7 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                                     aUser = temp;
                                 }
                             }
-                            if(aUser != null && attemptCntr == 3 && !(aUser instanceof Admin)) {
+                            if(aUser != null && attemptCntr == 4 && !(aUser instanceof Admin)) {
                                 aUser.setBlocked(true);
                                 database.child(aUser.getUID()).setValue(aUser);
                                 Toast.makeText(getBaseContext(), "Too many login attempts\nAccount blocked",

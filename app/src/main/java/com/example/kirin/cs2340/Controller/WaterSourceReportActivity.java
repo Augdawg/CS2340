@@ -73,7 +73,6 @@ public class WaterSourceReportActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Water Source Report Submitted",
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, WelcomeActivity.class);
-
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

@@ -1,13 +1,24 @@
 package com.example.kirin.cs2340.Controller;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.kirin.cs2340.Model.ActivityLog;
+import com.example.kirin.cs2340.Model.CurrentUser;
+import com.example.kirin.cs2340.Model.GeneralUser;
+import com.example.kirin.cs2340.Model.LogType;
+import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -18,6 +29,8 @@ import java.util.List;
 
 public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRViewHolder> {
     private final List<WaterQualityReport> reports;
+    private ViewQualityActivity context;
+    private final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
     /**
      * List item holder that holds report view fields
@@ -68,7 +81,38 @@ public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRV
      * @param i index of item in overall list that needs populated fields
      */
     public void onBindViewHolder(WQRReportAdapter.WQRViewHolder viewHolder, int i) {
-        WaterQualityReport wqr = reports.get(i);
+        final WaterQualityReport wqr = reports.get(i);
+        viewHolder.v.setLongClickable(true);
+        final ViewQualityActivity context = this.context;
+        if (CurrentUser.getInstance().getCurrentUser() instanceof Manager) {
+            viewHolder.v.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Manager Action");
+                    builder.setMessage("Delete this report?");
+                    builder.setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder.setPositiveButton("Delete",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    ActivityLog log = new ActivityLog();
+                                    log.setId1(CurrentUser.getInstance().getCurrentUser().getId());
+                                    log.setType(LogType.REPORT_DELETE);
+                                    log.setId2(wqr.getReportId());
+                                    database.getRoot().child("Security Log").push().setValue(log);
+                                    dialog.cancel();
+                                }
+                            });
+                    builder.create().show();
+                    return true;
+                }
+            });
+        }
         TextView tv = (TextView) viewHolder.v.findViewById(R.id.report_id);
         tv.setText(String.format(Integer.toString(wqr.getReportId())));
         tv = (TextView) viewHolder.v.findViewById(R.id.submitter);
@@ -83,5 +127,8 @@ public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRV
         tv.setText(String.format(Integer.toString(wqr.getContaminantPPM())));
         tv = (TextView) viewHolder.v.findViewById(R.id.date);
         tv.setText(wqr.getDate().toString());
+    }
+    public void setContext(ViewQualityActivity activity) {
+        this.context = activity;
     }
 }

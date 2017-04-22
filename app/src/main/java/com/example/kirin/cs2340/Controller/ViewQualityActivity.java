@@ -40,7 +40,7 @@ public class ViewQualityActivity extends AppCompatActivity {
 
         final List<WaterQualityReport> reports = new ArrayList<>();
         final WQRReportAdapter adapter = new WQRReportAdapter(reports);
-
+        adapter.setContext(this);
         database = FirebaseDatabase.getInstance().getReference().child("Reports").child("QR");
         database.addChildEventListener(new ChildEventListener() {
             @Override
@@ -70,7 +70,7 @@ public class ViewQualityActivity extends AppCompatActivity {
 
             }
         });
-
+        rv.setLongClickable(true);
       //  WSRDBHandler db = new WSRDBHandler(getApplicationContext());
        // reports.addAll(db.getAllWQRReports());
         rv.setAdapter(adapter);
