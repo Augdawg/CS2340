@@ -1,20 +1,32 @@
 package com.example.kirin.cs2340.Controller;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.kirin.cs2340.Manifest;
+import com.example.kirin.cs2340.Model.CurrentLocation;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,6 +39,7 @@ import java.util.Date;
 
 public class WaterSourceReportActivity extends AppCompatActivity {
 
+    private CheckBox currentLocation;
     private EditText latInput;
     private EditText longInput;
     private RadioGroup typeInput;
@@ -40,6 +53,7 @@ public class WaterSourceReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water_source_report);
+        currentLocation = (CheckBox) findViewById(R.id.current_location);
         latInput = (EditText) findViewById(R.id.latInput);
         longInput = (EditText) findViewById(R.id.longInput);
         typeInput = (RadioGroup) findViewById(R.id.typeInput);
@@ -56,8 +70,15 @@ public class WaterSourceReportActivity extends AppCompatActivity {
      */
     public void submitClick(View view) {
         Date date = new Date();
-        double lat = Double.parseDouble(latInput.getText().toString());
-        double lng = Double.parseDouble(longInput.getText().toString());
+        double lat;
+        double lng;
+        if (currentLocation.isChecked()) {
+            lat = CurrentLocation.getInstance(this).getCurrentLat();
+            lng = CurrentLocation.getInstance(this).getCurrentLng();
+        } else {
+            lat = Double.parseDouble(latInput.getText().toString());
+            lng = Double.parseDouble(longInput.getText().toString());
+        }
         String type = ((RadioButton)findViewById(typeInput.getCheckedRadioButtonId())).getText().toString();
         String condition = ((RadioButton)findViewById(conditionInput.getCheckedRadioButtonId())).getText().toString();
         GeneralUser u = CurrentUser.getInstance().getCurrentUser();

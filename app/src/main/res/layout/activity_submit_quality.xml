@@ -27,11 +27,18 @@
         android:layout_below="@+id/latInput"
         android:hint="@string/activity_submit_quality_lng_hint" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use Current Location"
+        android:id="@+id/current_location"
+        android:layout_below="@+id/longInput"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/activity_submit_quality_condition"
-        android:layout_below="@+id/longInput"
+        android:layout_below="@+id/current_location"
         android:textSize="18sp"
         android:textStyle="bold"
         android:id="@+id/conditionTitle"/>
