@@ -1,24 +1,37 @@
 package com.example.kirin.cs2340.Controller;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kirin.cs2340.Model.Admin;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
+import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.Manager;
+import com.example.kirin.cs2340.Model.ValidationUtilities;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.Model.Worker;
+import com.example.kirin.cs2340.Model.CurrentLocation;
 import com.example.kirin.cs2340.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -37,6 +50,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +61,10 @@ import java.util.List;
 
 public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private CurrentLocation location;
     private final List<WaterQualityReport> wqrReports = new ArrayList<>();
     private final List<WaterSourceReport> wsrReports = new ArrayList<>();
+    private Dialog dialog;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -65,6 +81,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
         ((MapFragment) getFragmentManager().findFragmentById(R.id.map_fragment)).getMapAsync(this);
         if (!(CurrentUser.getInstance().getCurrentUser() instanceof Worker)) {
             Button btn = (Button) findViewById(R.id.submitWQR_btn);
@@ -142,6 +159,7 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
 
             }
         });
+        location = CurrentLocation.getInstance(WelcomeActivity.this);
     }
 
     /**
@@ -299,5 +317,84 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
     public void qualityGraphClick(View v) {
         Intent intent = new Intent(this, QualityGraphActivity.class);
         startActivity(intent);
+    }
+
+    public void mapSubmitWQR(View v) {
+        dialog = new Dialog(WelcomeActivity.this);
+        dialog.setContentView(R.layout.dialog_submit_wqr);
+        dialog.setTitle("Submit");
+        dialog.show();
+    }
+
+    public void mapSubmitWSR(View v) {
+        dialog = new Dialog(WelcomeActivity.this);
+        dialog.setContentView(R.layout.dialog_submit_wsr);
+        dialog.setTitle("Submit");
+        dialog.show();
+    }
+
+    public void submitWQRClick(View v) {
+        double lat;
+        double lng;
+        boolean currentLoc = ((CheckBox) dialog.findViewById(R.id.current_location)).isChecked();
+        location = CurrentLocation.getInstance(this);
+        if (currentLoc) {
+            lat = location.getCurrentLat();
+            lng = location.getCurrentLng();
+        } else {
+            lat = Double.parseDouble(((EditText) dialog.findViewById(R.id.latInput)).getText().toString());
+            lng = Double.parseDouble(((EditText) dialog.findViewById(R.id.longInput)).getText().toString());
+        }
+        String cond = ((RadioButton) dialog.findViewById(((RadioGroup) dialog.findViewById(R.id.conditionInput))
+                .getCheckedRadioButtonId())).getText().toString();
+        int virusPPM = Integer.parseInt(((EditText) dialog.findViewById(R.id.virusPPM)).getText().toString());
+        int contaminantPPM = Integer.parseInt(((EditText) dialog.findViewById(R.id.contaminantPPM)).getText().toString());
+        GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        WaterQualityReport wqr = ValidationUtilities.tryCreateWQR(cu.getName(), lat, lng,
+                cond, virusPPM, contaminantPPM, new Date());
+        if (wqr == null) {
+            Toast.makeText(this, "Invalid Fields", Toast.LENGTH_SHORT);
+        } else {
+            DatabaseReference qrRef = database.getParent().child("QR");
+            qrRef.push().setValue(wqr);
+            dialog.hide();
+            Toast.makeText(this, "Quality Report Submitted", Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void submitWSRClick(View v) {
+        double lat;
+        double lng;
+
+        boolean currentLoc = ((CheckBox) dialog.findViewById(R.id.current_location)).isChecked();
+        CurrentLocation location = CurrentLocation.getInstance(this);
+        if (currentLoc) {
+            lat = location.getCurrentLat();
+            lng = location.getCurrentLng();
+        } else {
+            lat = Double.parseDouble(((EditText) dialog.findViewById(R.id.latInput)).getText().toString());
+            lng = Double.parseDouble(((EditText) dialog.findViewById(R.id.longInput)).getText().toString());
+        }
+        String type = ((RadioButton) dialog.findViewById(((RadioGroup) dialog.findViewById(R.id.typeInput))
+                .getCheckedRadioButtonId())).getText().toString();
+        String cond = ((RadioButton) dialog.findViewById(((RadioGroup) dialog.findViewById(R.id.conditionInput))
+                .getCheckedRadioButtonId())).getText().toString();
+        GeneralUser cu = CurrentUser.getInstance().getCurrentUser();
+        WaterSourceReport wsr = ValidationUtilities.tryCreateWSR(cu.getName(), lat, lng, type, cond, new Date());
+
+        if (wsr == null) {
+            Toast.makeText(this, "Invalid Fields", Toast.LENGTH_SHORT);
+            dialog.hide();
+        } else {
+            DatabaseReference srRef = database.getParent().child("WSR");
+            srRef.push().setValue(wsr);
+            dialog.hide();
+            Toast.makeText(this, "Source Report Submitted", Toast.LENGTH_SHORT);
+        }
+        Toast.makeText(this, "toast", Toast.LENGTH_SHORT);
+    }
+
+    public void cancelClick(View v) {
+        dialog.hide();
     }
 }

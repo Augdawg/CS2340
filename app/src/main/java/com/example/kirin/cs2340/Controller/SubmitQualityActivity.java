@@ -1,14 +1,19 @@
 package com.example.kirin.cs2340.Controller;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.kirin.cs2340.Model.CurrentLocation;
 import com.example.kirin.cs2340.Model.CurrentUser;
 import com.example.kirin.cs2340.Model.DB.WSRDBHandler;
 import com.example.kirin.cs2340.Model.GeneralUser;
@@ -33,6 +38,7 @@ public class SubmitQualityActivity extends AppCompatActivity {
     private RadioGroup conditionInput;
     private EditText virusPPMInput;
     private EditText contaminantPPMInput;
+    private CheckBox useCurrentLoc;
     private DatabaseReference database;
 
     /**
@@ -43,6 +49,7 @@ public class SubmitQualityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_quality);
+        useCurrentLoc = (CheckBox) findViewById(R.id.current_location);
         latInput = (EditText) findViewById(R.id.latInput);
         lngInput = (EditText) findViewById(longInput);
         conditionInput = (RadioGroup) findViewById(R.id.conditionInput);
@@ -58,8 +65,16 @@ public class SubmitQualityActivity extends AppCompatActivity {
      */
     public void submitClick(View v) {
         Date date = new Date();
-        double lat = Double.parseDouble(latInput.getText().toString());
-        double lng = Double.parseDouble(lngInput.getText().toString());
+        double lat;
+        double lng;
+        boolean currentLoc = useCurrentLoc.isChecked();
+        if (currentLoc) {
+            lat = CurrentLocation.getInstance(this).getCurrentLat();
+            lng = CurrentLocation.getInstance(this).getCurrentLng();
+        } else {
+            lat = Double.parseDouble(latInput.getText().toString());
+            lng = Double.parseDouble(lngInput.getText().toString());
+        }
         String cond = ((RadioButton)findViewById(conditionInput.getCheckedRadioButtonId())).getText().toString();
         int virusPPM = -1;
         int contaminantPPM = -1;

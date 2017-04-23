@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="https://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <Button
         android:layout_width="80dp"
@@ -81,5 +83,63 @@
         android:layout_centerHorizontal="true"
         android:name="com.google.android.gms.maps.MapFragment"/>
 
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit WSR"
+                android:padding="5dp"
+                android:background="#44000000"
+                android:layout_marginBottom="32dp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="30dp"
+                />
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:id="@+id/wsr_fab"
+                android:src="@drawable/plus"
+                android:onClick="mapSubmitWSR"
+                fab:fabSize="mini"
+                >
+            </android.support.design.widget.FloatingActionButton>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit WQR"
+                android:padding="5dp"
+                android:background="#44000000"
+                android:layout_marginBottom="32dp"
+                android:textColor="#ffffff"
+                android:layout_marginTop="30dp"
+                />
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:id="@+id/wqr_fab"
+                android:src="@drawable/plus"
+                android:onClick="mapSubmitWQR"
+                fab:fabSize="mini"
+                >
+            </android.support.design.widget.FloatingActionButton>
+            </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
