@@ -16,9 +16,14 @@ import com.example.kirin.cs2340.Model.GeneralUser;
 import com.example.kirin.cs2340.Model.LogType;
 import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.WaterQualityReport;
+import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -84,6 +89,7 @@ public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRV
         final WaterQualityReport wqr = reports.get(i);
         viewHolder.v.setLongClickable(true);
         final ViewQualityActivity context = this.context;
+        final int pos = i;
         if (CurrentUser.getInstance().getCurrentUser() instanceof Manager) {
             viewHolder.v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -105,6 +111,25 @@ public class WQRReportAdapter extends RecyclerView.Adapter<WQRReportAdapter.WQRV
                                     log.setType(LogType.REPORT_DELETE);
                                     log.setId2(wqr.getReportId());
                                     database.getRoot().child("Security Log").push().setValue(log);
+                                    Query query = database.child("Reports").child("QR").orderByValue();
+                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot child: dataSnapshot.getChildren()) {
+                                                WaterQualityReport temp = child.getValue(WaterQualityReport.class);
+                                                if(temp.getDate().getTime() == wqr.getDate().getTime()) {
+                                                    child.getRef().removeValue();
+                                                    reports.remove(pos);
+                                                    notifyItemRemoved(pos);
+
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
                                     dialog.cancel();
                                 }
                             });

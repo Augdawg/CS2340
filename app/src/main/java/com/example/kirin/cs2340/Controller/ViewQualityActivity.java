@@ -57,7 +57,9 @@ public class ViewQualityActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                WaterQualityReport wqr = dataSnapshot.getValue(WaterQualityReport.class);
+                reports.remove(wqr);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

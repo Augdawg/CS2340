@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(getBaseContext(), "Account is blocked",
                                                 Toast.LENGTH_SHORT).show();
                                         return;
-                                    } else {
+                                    } else if (user != null){
                                         Toast.makeText(getBaseContext(), "Login succeeded",
                                                 Toast.LENGTH_SHORT).show();
                                         log.setStatus("Success");
@@ -215,6 +215,9 @@ public class LoginActivity extends AppCompatActivity {
                                         database.getRoot().child("Security Log").push().setValue(log);
                                         Intent homePage = new Intent(getBaseContext(), WelcomeActivity.class);
                                         startActivity(homePage);
+                                    } else {
+                                        Toast.makeText(getBaseContext(), "Login failed, unknown reason",
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
                             String status = "Invalid Email";

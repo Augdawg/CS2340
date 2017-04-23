@@ -15,10 +15,16 @@ import com.example.kirin.cs2340.Model.LogType;
 import com.example.kirin.cs2340.Model.Manager;
 import com.example.kirin.cs2340.Model.WaterSourceReport;
 import com.example.kirin.cs2340.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Kirin on 3/8/2017.
@@ -80,6 +86,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
     public void onBindViewHolder(ReportAdapter.ViewHolder viewHolder, int i) {
         final WaterSourceReport wsr = reports.get(i);
         viewHolder.v.setLongClickable(true);
+        final int pos = i;
         final ViewSourceActivity context = this.context;
         if (CurrentUser.getInstance().getCurrentUser() instanceof Manager) {
             viewHolder.v.setOnLongClickListener(new View.OnLongClickListener() {
@@ -91,6 +98,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
                     builder.setNegativeButton("Cancel",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+
                                     dialog.cancel();
                                 }
                             });
@@ -102,6 +110,25 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
                                     log.setType(LogType.REPORT_DELETE);
                                     log.setId2(wsr.getReportNumber());
                                     database.getRoot().child("Security Log").push().setValue(log);
+                                    Query query = database.child("Reports").child("WSR").orderByValue();
+                                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot child: dataSnapshot.getChildren()) {
+                                                WaterSourceReport temp = child.getValue(WaterSourceReport.class);
+                                                if(temp.getDate().getTime() == wsr.getDate().getTime()) {
+                                                        child.getRef().removeValue();
+                                                    reports.remove(pos);
+                                                    notifyItemRemoved(pos);
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+
                                     dialog.cancel();
                                 }
                             });

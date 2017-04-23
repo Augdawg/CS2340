@@ -61,7 +61,8 @@ public class ViewSourceActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                reports.remove(dataSnapshot.getValue(WaterSourceReport.class));
+                adapter.notifyDataSetChanged();
             }
 
             @Override

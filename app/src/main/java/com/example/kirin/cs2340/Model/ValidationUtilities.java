@@ -52,6 +52,7 @@ public class ValidationUtilities {
         }
         user.setName(name);
         user.setUsername(username);
+        user.setHome(home);
         user.setPassword(password);
         user.setTitle(title);
         user.setEmail(email);
