@@ -45,28 +45,31 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void changePassword(View v) {
         if (newPass.getText() != null && !newPass.getText().toString().equals("")) {
 
-            String currentUser = ForgotPassUser.getInstance().getUsername();
-            DBHandler db = new DBHandler(getApplicationContext());
-            GeneralUser g = db.getUserByUsername(currentUser);
-            g.setPassword(newPass.getText().toString());
-            db.addUser(g);
-            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            user.updatePassword(newPass.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_LONG).show();
-                        FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid())
-                                .child("password").setValue(newPass.getText().toString());
-                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
+//            String currentUser = ForgotPassUser.getInstance().getUsername();
+//            DBHandler db = new DBHandler(getApplicationContext());
+//            GeneralUser g = db.getUserByUsername(currentUser);
+//            g.setPassword(newPass.getText().toString());
+//            db.addUser(g);
+//            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//            user.updatePassword(newPass.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    if (task.isSuccessful()) {
+//                        Toast.makeText(getApplicationContext(), "Password changed", Toast.LENGTH_LONG).show();
+//                        FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid())
+//                                .child("password").setValue(newPass.getText().toString());
+//                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+//                        startActivity(intent);
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            });
+//        } else {
+//            Toast.makeText(getApplicationContext(), "Invalid Password", Toast.LENGTH_LONG).show();
+//        }
+
         }
+
     }
 }

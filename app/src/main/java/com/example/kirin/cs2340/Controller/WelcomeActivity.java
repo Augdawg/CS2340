@@ -216,7 +216,6 @@ public class WelcomeActivity extends FragmentActivity implements OnMapReadyCallb
      * @param v current view
      */
     public void logoutPressed(View v) {
-        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

@@ -132,22 +132,29 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         if (user != null) {
-            try {
-                String key;
-                Random r = new Random(System.currentTimeMillis());
-                key = Integer.toString(10000 + r.nextInt(20000));
-                ForgotPassUser.getInstance().addPasswordCode(user.getUsername(), key);
-                GMailSender sender = new GMailSender();
-                sender.sendMail("Type in this code: " + key, sender.getUser(), user.getEmail());
-                Intent intent = new Intent(this, ForgotPasswordActivity.class);
-                ForgotPassUser.getInstance().setUsername(user.getUsername());
-                startActivity(intent);
-            } catch (Exception e) {
-                Log.e("SendMail", e.getMessage(), e);
-            }
+            FirebaseAuth.getInstance().sendPasswordResetEmail(user.getEmail());
+            Toast.makeText(this, "Password Reset Email sent", Toast.LENGTH_SHORT).show();
+
         } else {
-            Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show();
         }
+//        if (1 == 0 && user != null) {
+//            try {
+//                String key;
+//                Random r = new Random(System.currentTimeMillis());
+//                key = Integer.toString(10000 + r.nextInt(20000));
+//                ForgotPassUser.getInstance().addPasswordCode(user.getUsername(), key);
+//                GMailSender sender = new GMailSender();
+//                sender.sendMail("Type in this code: " + key, sender.getUser(), user.getEmail());
+//                Intent intent = new Intent(this, ForgotPasswordActivity.class);
+//                ForgotPassUser.getInstance().setUsername(user.getUsername());
+//                startActivity(intent);
+//            } catch (Exception e) {
+//                Log.e("SendMail", e.getMessage(), e);
+//            }
+//        } else {
+//            //Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
+//        }
         //DBHandler db = new DBHandler(getApplicationContext());
         //GeneralUser userNeeded = db.getUserByUsername(username.getText().toString());
 
