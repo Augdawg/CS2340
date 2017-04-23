@@ -120,7 +120,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
                                                         child.getRef().removeValue();
                                                     reports.remove(pos);
                                                     notifyItemRemoved(pos);
-
                                                 }
                                             }
                                         }
